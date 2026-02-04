@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'Lato', sans-serif;
+  --font-accent: 'Dancing Script', cursive;
+  --color-rose-50: #fff1f2;
+  --color-rose-100: #ffe4e6;
+  --color-rose-200: #fecdd3;
+  --color-rose-300: #fda4af;
+  --color-rose-400: #fb7185;
+  --color-rose-500: #f43f5e;
+  --color-rose-600: #e11d48;
+  --color-rose-700: #be123c;
+  --color-rose-800: #9f1239;
+  --color-rose-900: #881337;
+  --color-gold-400: #facc15;
+  --color-gold-500: #eab308;
+  --color-cream: #fef3e2;
+  --color-dark-bg: #1a0a2e;
+  --color-dark-red: #4a0020;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Lato', sans-serif;
+  background: linear-gradient(135deg, #1a0a2e 0%, #2d0a3e 30%, #4a0020 70%, #3a0015 100%);
+  color: #fef3e2;
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', serif;
+}
+
+.font-accent {
+  font-family: 'Dancing Script', cursive;
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+}
+
+.puzzle-card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.puzzle-card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(244, 63, 94, 0.3);
+}
+
+.gold-glow {
+  text-shadow: 0 0 10px rgba(250, 204, 21, 0.5), 0 0 20px rgba(250, 204, 21, 0.3);
+}
+
+.romantic-gradient-text {
+  background: linear-gradient(135deg, #fda4af, #facc15);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-heartbeat {
+  animation: heartbeat 1.5s ease-in-out infinite;
+}
