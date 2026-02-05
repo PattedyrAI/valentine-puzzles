@@ -22,15 +22,15 @@ const HomePage = () => {
       {/* Greeting */}
       <div className="text-center mb-10">
         <p className="font-accent text-3xl md:text-4xl text-rose-300 mb-4">
-          Dear Julie,
+          For Julie,
         </p>
         <h2 className="romantic-gradient-text text-2xl md:text-3xl font-bold mb-4">
-          Your Valentine&apos;s Day Adventure Awaits
+          Every Love Story Has Its Clues
         </h2>
         <p className="text-[#fef3e2]/70 text-base md:text-lg leading-relaxed max-w-2xl mx-auto">
-          I&apos;ve prepared 10 puzzles for you, one for each day leading up to
-          Valentine&apos;s Day. Solve them all to uncover a special surprise
-          that awaits you on February 14th!
+          I&apos;ve hidden 7 puzzles for you &mdash; each one inspired by something
+          we share. Solve them all and piece together the clues to find what
+          waits for you on Valentine&apos;s Day.
         </p>
       </div>
 

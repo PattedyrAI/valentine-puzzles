@@ -65,14 +65,14 @@ const FinalRevealPage = () => {
         {/* Header */}
         <motion.div variants={itemVariants} className="mb-12">
           <p className="font-accent text-3xl md:text-4xl text-rose-300 mb-4">
-            Congratulations, Julie!
+            Julie, you did it.
           </p>
           <h1 className="romantic-gradient-text text-3xl md:text-4xl font-bold mb-4">
-            You Solved All The Puzzles!
+            Every Piece Leads to You
           </h1>
           <p className="text-[#fef3e2]/70 text-base md:text-lg max-w-xl mx-auto">
-            Here are all the clues you&apos;ve collected on your journey.
-            Together, they reveal a very special surprise...
+            You&apos;ve solved every puzzle I made for you.
+            Now read the clues together &mdash; they lead somewhere special.
           </p>
         </motion.div>
 

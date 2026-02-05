@@ -7,28 +7,22 @@ import { useConfetti } from '../hooks/useConfetti';
 import PuzzleShell from '../components/puzzles/PuzzleShell';
 import LockOverlay from '../components/common/LockOverlay';
 import PageWrapper from '../components/layout/PageWrapper';
-import CipherPuzzle from '../components/puzzles/CipherPuzzle';
-import RiddlePuzzle from '../components/puzzles/RiddlePuzzle';
-import WordSearchPuzzle from '../components/puzzles/WordSearchPuzzle';
-import MemoryMatchPuzzle from '../components/puzzles/MemoryMatchPuzzle';
-import SudokuPuzzle from '../components/puzzles/SudokuPuzzle';
-import CrosswordPuzzle from '../components/puzzles/CrosswordPuzzle';
-import MazePuzzle from '../components/puzzles/MazePuzzle';
-import AnagramPuzzle from '../components/puzzles/AnagramPuzzle';
-import TriviaPuzzle from '../components/puzzles/TriviaPuzzle';
-import JigsawPuzzle from '../components/puzzles/JigsawPuzzle';
+import HorsesPuzzle from '../components/puzzles/HorsesPuzzle';
+import KpopDemonPuzzle from '../components/puzzles/KpopDemonPuzzle';
+import KatseyePuzzle from '../components/puzzles/KatseyePuzzle';
+import BridgertonPuzzle from '../components/puzzles/BridgertonPuzzle';
+import WallePuzzle from '../components/puzzles/WallePuzzle';
+import GreenDayPuzzle from '../components/puzzles/GreenDayPuzzle';
+import LondonPuzzle from '../components/puzzles/LondonPuzzle';
 
 const puzzleComponents: Record<string, React.ComponentType<{ onSolve: () => void; isSolved: boolean }>> = {
-  cipher: CipherPuzzle,
-  riddle: RiddlePuzzle,
-  wordsearch: WordSearchPuzzle,
-  memory: MemoryMatchPuzzle,
-  sudoku: SudokuPuzzle,
-  crossword: CrosswordPuzzle,
-  maze: MazePuzzle,
-  anagram: AnagramPuzzle,
-  trivia: TriviaPuzzle,
-  jigsaw: JigsawPuzzle,
+  horses_match: HorsesPuzzle,
+  kpop_sequence: KpopDemonPuzzle,
+  katseye_scramble: KatseyePuzzle,
+  bridgerton_cipher: BridgertonPuzzle,
+  walle_sort: WallePuzzle,
+  greenday_trivia: GreenDayPuzzle,
+  london_maze: LondonPuzzle,
 };
 
 const PuzzlePage = () => {

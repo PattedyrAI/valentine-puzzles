@@ -7,19 +7,17 @@ export interface PuzzleConfig {
   type: PuzzleType;
   clue: string; // base64-encoded clue text
   icon: string;
+  theme: string; // theme color/label for the puzzle
 }
 
 export type PuzzleType =
-  | 'cipher'
-  | 'riddle'
-  | 'wordsearch'
-  | 'memory'
-  | 'sudoku'
-  | 'crossword'
-  | 'maze'
-  | 'anagram'
-  | 'trivia'
-  | 'jigsaw';
+  | 'horses_match'
+  | 'kpop_sequence'
+  | 'katseye_scramble'
+  | 'bridgerton_cipher'
+  | 'walle_sort'
+  | 'greenday_trivia'
+  | 'london_maze';
 
 export interface Progress {
   solved: number[]; // puzzle IDs that have been solved
