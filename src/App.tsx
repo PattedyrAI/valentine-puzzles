@@ -1,6 +1,8 @@
 import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import HeartBackground from './components/common/HeartBackground';
+import FloatingAffirmations from './components/common/FloatingAffirmations';
+import SnoopyDance from './components/common/SnoopyDance';
 import Footer from './components/layout/Footer';
 import HomePage from './pages/HomePage';
 import PuzzlePage from './pages/PuzzlePage';
@@ -32,6 +34,8 @@ function App() {
   return (
     <HashRouter>
       <HeartBackground />
+      <FloatingAffirmations />
+      <SnoopyDance />
       <div className="relative z-10 flex flex-col min-h-screen">
         <main className="flex-1 flex flex-col">
           <AnimatedRoutes />

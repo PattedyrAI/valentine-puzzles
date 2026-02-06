@@ -10,6 +10,7 @@ interface TriviaQuestion {
   question: string;
   options: string[];
   correctIndex: number;
+  funFact: string;
 }
 
 const QUESTIONS: TriviaQuestion[] = [
@@ -17,51 +18,61 @@ const QUESTIONS: TriviaQuestion[] = [
     question: 'Hvilket konsertsted i Hamburg er kjent for sitt b\u00F8lgeformede glasstak og ligger rett ved Elben?',
     options: ['Elbphilharmonie', 'Kampnagel', 'Markthalle Hamburg', 'Fabrik'],
     correctIndex: 0,
+    funFact: 'Elbphilharmonie tok 10 \u00E5r \u00E5 bygge og kostet over 860 millioner euro \u2014 nesten 10 ganger det opprinnelige budsjettet!',
   },
   {
     question: 'Green Day \u00E5pner vanligvis konserter med pyro og hvilken klassisk l\u00E5t?',
     options: ['American Idiot', 'Basket Case', 'Welcome to Paradise', 'Longview'],
     correctIndex: 0,
+    funFact: 'Green Day bruker opptil 2 tonn med pyroteknikk per konsert. Billie Joe har sagt at han elsker lukten av krutt!',
   },
   {
     question: 'Hvilken gate i Hamburg er den legendariske nattelivsstripen der The Beatles en gang spilte?',
     options: ['Reeperbahn', 'Jungfernstieg', 'M\u00F6nckebergstra\u00DFe', 'Lange Reihe'],
     correctIndex: 0,
+    funFact: 'The Beatles spilte over 800 timer p\u00E5 Reeperbahn-klubber mellom 1960 og 1962 \u2014 det formet lyden deres for alltid.',
   },
   {
     question: 'P\u00E5 en Green Day-konsert f\u00E5r Billie Joe publikum til \u00E5 synge hvilken call-and-response?',
     options: ['Hey-Oh!', 'Oi Oi Oi!', "Let's Go!", 'Yeah Yeah!'],
     correctIndex: 0,
+    funFact: 'Billie Joe har f\u00E5tt opptil 65\u00A0000 mennesker til \u00E5 synge \u00ABHey-Oh!\u00BB i kor. Han kaller det verdens st\u00F8rste kor!',
   },
   {
     question: 'Hva heter den indre byinnsj\u00F8en omgitt av Hamburgs vakreste gangstier?',
     options: ['Binnenalster', 'Au\u00DFenalster', 'Stadtparksee', 'Elbsee'],
     correctIndex: 0,
+    funFact: 'Binnenalster ble skapt p\u00E5 1200-tallet ved \u00E5 demme opp elven Alster. Om vinteren fryser den noen ganger til en naturlig sk\u00F8ytebane!',
   },
   {
     question: 'Hvilken Green Day-ballade f\u00E5r alltid lighterne frem \u2014 om tap og tidens gang?',
     options: ['Wake Me Up When September Ends', 'Good Riddance (Time of Your Life)', '21 Guns', 'Still Breathing'],
     correctIndex: 0,
+    funFact: 'L\u00E5ten handler om Billie Joes far, som d\u00F8de av kreft da Billie Joe bare var 10 \u00E5r gammel.',
   },
   {
-    question: "Hva er det ekte fornavnet til Green Days trommeslager 'Tr\u00E9 Cool'?",
-    options: ['Frank', 'Thomas', 'Patrick', 'William'],
+    question: 'I tegneserien Peanuts, hva er Snoopys mest ber\u00F8mte \u00AByrke\u00BB?',
+    options: ['F\u00F8rste verdenskrig-flyger', 'Rockestjerne', 'Privatdetektiv', 'Kokk'],
     correctIndex: 0,
+    funFact: 'Snoopy forestiller seg at hundehuset er et Sopwith Camel-jagerfly, og hans erkefiende er Den r\u00F8de baron. Charles Schulz introduserte dette i 1965!',
   },
   {
     question: 'Hamburgs Speicherstadt er p\u00E5 UNESCOs verdensarvliste. Hva ble opprinnelig lagret der?',
     options: ['Kaffe, te og krydder', 'V\u00E5pen og ammunisjon', 'Kunst og antikviteter', 'Gull og s\u00F8lv'],
     correctIndex: 0,
+    funFact: 'Speicherstadt er verdens st\u00F8rste lagerhuskompleks bygget p\u00E5 trestolper. Der finner du ogs\u00E5 Miniatur Wunderland \u2014 verdens st\u00F8rste modelljernbane!',
   },
   {
     question: "I rockeoperaen 'American Idiot', hvem er alter egoet som representerer oppr\u00F8r og kaos?",
     options: ['St. Jimmy', 'Jesus of Suburbia', 'Whatsername', 'The Extraordinary Girl'],
     correctIndex: 0,
+    funFact: '\u00ABAmericanIdiot\u00BB ble en Broadway-musikal i 2010 og vant to Tony Awards. Den spilte over 400 forestillinger!',
   },
   {
     question: "Hvilken Green Day-l\u00E5t har teksten 'I walk a lonely road, the only one that I have ever known'?",
     options: ['Boulevard of Broken Dreams', 'Holiday', 'Minority', 'Letterbomb'],
     correctIndex: 0,
+    funFact: 'L\u00E5ten vant Grammy for \u00ABRecord of the Year\u00BB i 2006 og er en av Green Days mest streamede sanger noensinne.',
   },
 ];
 
@@ -78,6 +89,7 @@ function prepareQuestions(): { questions: TriviaQuestion[] } {
       question: q.question,
       options: shuffled,
       correctIndex: shuffled.indexOf(correctAnswer),
+      funFact: q.funFact,
     };
   });
   return { questions: prepared };
@@ -278,6 +290,23 @@ export default function GreenDayPuzzle({ onSolve, isSolved }: GreenDayPuzzleProp
               </motion.button>
             ))}
           </div>
+
+          <AnimatePresence>
+            {revealed && currentQuestion.funFact && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.4, ease: 'easeOut' as const }}
+                className="mt-5 px-4 py-3 rounded-xl bg-emerald-500/8 border border-emerald-400/20"
+              >
+                <p className="text-emerald-200/70 text-sm leading-relaxed">
+                  <span className="text-emerald-300 font-semibold">Visste du? </span>
+                  {currentQuestion.funFact}
+                </p>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </motion.div>
       </AnimatePresence>
 

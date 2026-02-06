@@ -10,38 +10,45 @@ interface Question {
   question: string;
   options: string[];
   correct: number;
+  funFact: string;
 }
 
 const QUESTIONS: Question[] = [
   {
-    question: 'Hvilken hesterase er født mørk og blir gradvis hvit med alderen?',
+    question: 'Hvilken hesterase er f\u00F8dt m\u00F8rk og blir gradvis hvit med alderen?',
     options: ['Araber', 'Lipizzaner', 'Andalusier', 'Frieser'],
     correct: 1,
+    funFact: 'Lipizzanere f\u00F8des m\u00F8rke og blir hvite rundt 6\u201310 \u00E5rs alderen. Den spanske rideskolen i Wien har brukt dem siden 1572!',
   },
   {
-    question: 'Akhal-Teke er kjent for hvilket særtrekk?',
-    options: ['Krøllete man', 'Metallisk skinnende pels', 'Blå øyne', 'Flekkete mønster'],
+    question: 'Akhal-Teke er kjent for hvilket s\u00E6rtrekk?',
+    options: ['Kr\u00F8llete man', 'Metallisk skinnende pels', 'Bl\u00E5 \u00F8yne', 'Flekkete m\u00F8nster'],
     correct: 1,
+    funFact: 'Akhal-Teke kalles \u00ABhimmelens hester\u00BB og stammer fra Turkmenistan. Den metalliske glansen skyldes en unik h\u00E5rstruktur som bryter lys som en prisme.',
   },
   {
-    question: 'Hvilken rase har en mørk stripe gjennom manen?',
+    question: 'Hvilken rase har en m\u00F8rk stripe gjennom manen?',
     options: ['Haflinger', 'Fjordhest', 'Mustang', 'Clydesdale'],
     correct: 1,
+    funFact: 'Fjordhesten er en av verdens eldste hesteraser og stammer fra Norge. Manen klippes tradisjonelt i en bue for \u00E5 vise den m\u00F8rke midtstripen.',
   },
   {
-    question: 'Hva kalles de fjærlignende hårdottene på en Clydesdales nedre ben?',
-    options: ['Plymmer', 'Hovskjegg', 'Strømper', 'Frynser'],
+    question: 'Hva kalles de fj\u00E6rlignende h\u00E5rdottene p\u00E5 en Clydesdales nedre ben?',
+    options: ['Plymmer', 'Hovskjegg', 'Str\u00F8mper', 'Frynser'],
     correct: 1,
+    funFact: 'En voksen Clydesdale kan veie opptil 1\u00A0000 kg! De er mest kjent fra Budweiser-reklamene i USA.',
   },
   {
-    question: 'Hvilken rase kalles også «Den rene spanske hesten»?',
+    question: 'Hvilken rase kalles ogs\u00E5 \u00ABDen rene spanske hesten\u00BB?',
     options: ['Lusitano', 'Andalusier', 'Paso Fino', 'Azteca'],
     correct: 1,
+    funFact: 'Andalusieren er ogs\u00E5 kjent som PRE (Pura Raza Espa\u00F1ola). De ble brukt av spanske konger i krig og er ber\u00F8mt for sine elegante bevegelser.',
   },
   {
-    question: 'Arabere er kjent for å ha færre av hvilke knokler enn andre hester?',
+    question: 'Arabere er kjent for \u00E5 ha f\u00E6rre av hvilke knokler enn andre hester?',
     options: ['Beinknokler', 'Ribbein og virvler', 'Hodeskalleplater', 'Tenner'],
     correct: 1,
+    funFact: 'Arabere har typisk 17 ribbein i stedet for 18 og 5 lendvirvler i stedet for 6. De er trolig verdens eldste kultiverte hesterase!',
   },
 ];
 
@@ -187,6 +194,20 @@ export default function HorsesPuzzle({ onSolve, isSolved }: HorsesPuzzleProps) {
               );
             })}
           </div>
+
+          {showResult && question.funFact && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              transition={{ duration: 0.4, ease: 'easeOut' as const }}
+              className="mt-5 px-4 py-3 rounded-xl bg-emerald-500/8 border border-emerald-400/20"
+            >
+              <p className="text-emerald-200/70 text-sm leading-relaxed">
+                <span className="text-emerald-300 font-semibold">Visste du? </span>
+                {question.funFact}
+              </p>
+            </motion.div>
+          )}
         </motion.div>
       </AnimatePresence>
     </div>
