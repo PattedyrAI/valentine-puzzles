@@ -14,52 +14,52 @@ interface TriviaQuestion {
 
 const QUESTIONS: TriviaQuestion[] = [
   {
-    question: "Which Hamburg venue is famous for its wave-like glass rooftop and sits right on the Elbe?",
+    question: 'Hvilket konsertsted i Hamburg er kjent for sitt b\u00F8lgeformede glasstak og ligger rett ved Elben?',
     options: ['Elbphilharmonie', 'Kampnagel', 'Markthalle Hamburg', 'Fabrik'],
     correctIndex: 0,
   },
   {
-    question: "Green Day typically opens concerts with pyro and which classic anthem?",
+    question: 'Green Day \u00E5pner vanligvis konserter med pyro og hvilken klassisk l\u00E5t?',
     options: ['American Idiot', 'Basket Case', 'Welcome to Paradise', 'Longview'],
     correctIndex: 0,
   },
   {
-    question: "Which Hamburg street is the legendary nightlife strip where The Beatles once played?",
+    question: 'Hvilken gate i Hamburg er den legendariske nattelivsstripen der The Beatles en gang spilte?',
     options: ['Reeperbahn', 'Jungfernstieg', 'M\u00F6nckebergstra\u00DFe', 'Lange Reihe'],
     correctIndex: 0,
   },
   {
-    question: "At a Green Day show, Billie Joe famously gets the crowd to chant which call-and-response?",
-    options: ['Hey-Oh!', 'Oi Oi Oi!', 'Let\'s Go!', 'Yeah Yeah!'],
+    question: 'P\u00E5 en Green Day-konsert f\u00E5r Billie Joe publikum til \u00E5 synge hvilken call-and-response?',
+    options: ['Hey-Oh!', 'Oi Oi Oi!', "Let's Go!", 'Yeah Yeah!'],
     correctIndex: 0,
   },
   {
-    question: "What is the name of the inner-city lake surrounded by Hamburg's most beautiful walking paths?",
+    question: 'Hva heter den indre byinnsj\u00F8en omgitt av Hamburgs vakreste gangstier?',
     options: ['Binnenalster', 'Au\u00DFenalster', 'Stadtparksee', 'Elbsee'],
     correctIndex: 0,
   },
   {
-    question: "Which Green Day ballad always makes the lighters come out \u2014 about loss and the passing of time?",
+    question: 'Hvilken Green Day-ballade f\u00E5r alltid lighterne frem \u2014 om tap og tidens gang?',
     options: ['Wake Me Up When September Ends', 'Good Riddance (Time of Your Life)', '21 Guns', 'Still Breathing'],
     correctIndex: 0,
   },
   {
-    question: "What is the real first name of Green Day's drummer 'Tr\u00E9 Cool'?",
+    question: "Hva er det ekte fornavnet til Green Days trommeslager 'Tr\u00E9 Cool'?",
     options: ['Frank', 'Thomas', 'Patrick', 'William'],
     correctIndex: 0,
   },
   {
-    question: "Hamburg's Speicherstadt warehouse district is a UNESCO World Heritage Site. What was originally stored there?",
-    options: ['Coffee, tea, and spices', 'Weapons and ammunition', 'Art and antiques', 'Gold and silver'],
+    question: 'Hamburgs Speicherstadt er p\u00E5 UNESCOs verdensarvliste. Hva ble opprinnelig lagret der?',
+    options: ['Kaffe, te og krydder', 'V\u00E5pen og ammunisjon', 'Kunst og antikviteter', 'Gull og s\u00F8lv'],
     correctIndex: 0,
   },
   {
-    question: "In the 'American Idiot' rock opera, who is the alter ego that represents rebellion and chaos?",
+    question: "I rockeoperaen 'American Idiot', hvem er alter egoet som representerer oppr\u00F8r og kaos?",
     options: ['St. Jimmy', 'Jesus of Suburbia', 'Whatsername', 'The Extraordinary Girl'],
     correctIndex: 0,
   },
   {
-    question: "Which Green Day song has the lyric 'I walk a lonely road, the only one that I have ever known'?",
+    question: "Hvilken Green Day-l\u00E5t har teksten 'I walk a lonely road, the only one that I have ever known'?",
     options: ['Boulevard of Broken Dreams', 'Holiday', 'Minority', 'Letterbomb'],
     correctIndex: 0,
   },
@@ -162,7 +162,7 @@ export default function GreenDayPuzzle({ onSolve, isSolved }: GreenDayPuzzleProp
         animate={{ opacity: 1, y: 0 }}
         className="flex flex-col items-center gap-6"
       >
-        <h2 className="text-2xl font-bold text-emerald-300">How Well Do You Remember?</h2>
+        <h2 className="text-xl font-bold text-emerald-300">Hvor godt husker du?</h2>
 
         {isSolved && (
           <motion.div
@@ -171,7 +171,7 @@ export default function GreenDayPuzzle({ onSolve, isSolved }: GreenDayPuzzleProp
             transition={{ type: 'spring', stiffness: 200, damping: 15 }}
             className="px-4 py-2 rounded-full bg-green-500/20 border border-green-400/30 text-green-300 text-sm font-semibold"
           >
-            Solved!
+            Oppgave fullf&oslash;rt!
           </motion.div>
         )}
 
@@ -192,8 +192,8 @@ export default function GreenDayPuzzle({ onSolve, isSolved }: GreenDayPuzzleProp
             finalScore >= PASS_THRESHOLD ? 'text-green-300' : 'text-red-300'
           }`}>
             {finalScore >= PASS_THRESHOLD
-              ? 'You remember everything about that night. I knew you would.'
-              : `Need ${PASS_THRESHOLD}+ to pass. Try again!`}
+              ? 'Du husker alt fra den kvelden. Jeg visste du ville det.'
+              : `Du trenger ${PASS_THRESHOLD}+ for \u00E5 best\u00E5. Pr\u00F8v igjen!`}
           </p>
         </motion.div>
 
@@ -206,7 +206,7 @@ export default function GreenDayPuzzle({ onSolve, isSolved }: GreenDayPuzzleProp
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            Try Again
+            Pr&oslash;v igjen
           </motion.button>
         )}
       </motion.div>
@@ -217,9 +217,9 @@ export default function GreenDayPuzzle({ onSolve, isSolved }: GreenDayPuzzleProp
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="flex flex-col items-center gap-6 w-full max-w-lg"
+      className="flex flex-col items-center gap-6 w-full"
     >
-      <h2 className="text-2xl font-bold text-emerald-300">That Night in Hamburg</h2>
+      <h2 className="text-xl font-bold text-emerald-300">Den kvelden i Hamburg</h2>
 
       {isSolved && (
         <motion.div
@@ -228,7 +228,7 @@ export default function GreenDayPuzzle({ onSolve, isSolved }: GreenDayPuzzleProp
           transition={{ type: 'spring', stiffness: 200, damping: 15 }}
           className="px-4 py-2 rounded-full bg-green-500/20 border border-green-400/30 text-green-300 text-sm font-semibold"
         >
-          Solved!
+          Oppgave fullf&oslash;rt!
         </motion.div>
       )}
 
@@ -246,7 +246,7 @@ export default function GreenDayPuzzle({ onSolve, isSolved }: GreenDayPuzzleProp
           />
         </div>
         <span className="text-sm text-emerald-200/60">
-          Score: {score}
+          Poeng: {score}
         </span>
       </div>
 
@@ -298,7 +298,7 @@ export default function GreenDayPuzzle({ onSolve, isSolved }: GreenDayPuzzleProp
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
-          {currentIndex < questions.length - 1 ? 'Next Question' : 'See Results'}
+          {currentIndex < questions.length - 1 ? 'Neste sp\u00F8rsm\u00E5l' : 'Se resultater'}
         </motion.button>
       )}
     </motion.div>

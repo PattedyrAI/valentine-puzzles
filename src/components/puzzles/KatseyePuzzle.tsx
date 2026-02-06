@@ -13,21 +13,18 @@ interface KatseyeWord {
 }
 
 const WORDS: KatseyeWord[] = [
-  { answer: 'TOUCH', hint: 'First single — a five-letter word for physical contact', defaultScramble: 'HCUTO' },
-  { answer: 'DANIELA', hint: 'Member whose name shares roots with a biblical judge', defaultScramble: 'ALIANED' },
-  { answer: 'MANON', hint: 'A palindrome-like name of a member born in the USA', defaultScramble: 'NOAMN' },
-  { answer: 'SOFT SPOT', hint: 'Two-word track — a vulnerable place in your heart', defaultScramble: 'FSOT TOPS' },
-  { answer: 'DEBUT', hint: "The moment they first stepped into the spotlight (not a song)", defaultScramble: 'UTEBD' },
-  { answer: 'LARA', hint: 'Member from the Philippines with a four-letter name', defaultScramble: 'RAAL' },
-  { answer: 'MY WAY', hint: 'Two-word empowerment anthem about independence', defaultScramble: 'YM AYW' },
+  { answer: 'TOUCH', hint: 'Første singel — et ord for fysisk kontakt', defaultScramble: 'HCUTO' },
+  { answer: 'DANIELA', hint: 'Medlem med navn fra en bibelsk dommer', defaultScramble: 'ALIANED' },
+  { answer: 'MANON', hint: 'Et palindrom-lignende navn på et medlem født i USA', defaultScramble: 'NOAMN' },
+  { answer: 'SOFT SPOT', hint: 'To-ords låt — et sårbart sted i hjertet ditt', defaultScramble: 'FSOT TOPS' },
+  { answer: 'DEBUT', hint: 'Øyeblikket de først trådte inn i rampelyset (ikke en sang)', defaultScramble: 'UTEBD' },
+  { answer: 'LARA', hint: 'Medlem fra Filippinene med fire bokstaver i navnet', defaultScramble: 'RAAL' },
+  { answer: 'MY WAY', hint: 'To-ords låt om uavhengighet og selvstendighet', defaultScramble: 'YM AYW' },
 ];
 
 function shuffleString(str: string): string {
-  // Preserve spaces in their positions
   const spaceIndices = new Set<number>();
-  str.split('').forEach((ch, i) => {
-    if (ch === ' ') spaceIndices.add(i);
-  });
+  str.split('').forEach((ch, i) => { if (ch === ' ') spaceIndices.add(i); });
 
   const letters = str.split('').filter(ch => ch !== ' ');
   for (let i = letters.length - 1; i > 0; i--) {
@@ -35,20 +32,13 @@ function shuffleString(str: string): string {
     [letters[i], letters[j]] = [letters[j], letters[i]];
   }
 
-  // Re-insert spaces
   const result: string[] = [];
   let li = 0;
   for (let i = 0; i < str.length; i++) {
-    if (spaceIndices.has(i)) {
-      result.push(' ');
-    } else {
-      result.push(letters[li]);
-      li++;
-    }
+    if (spaceIndices.has(i)) { result.push(' '); } else { result.push(letters[li]); li++; }
   }
 
   const out = result.join('');
-  // Avoid returning the original answer
   if (out.toUpperCase() === str.toUpperCase()) return shuffleString(str);
   return out;
 }
@@ -57,9 +47,7 @@ export default function KatseyePuzzle({ onSolve, isSolved }: KatseyePuzzleProps)
   const [currentIndex, setCurrentIndex] = useState(0);
   const [guess, setGuess] = useState('');
   const [solvedWords, setSolvedWords] = useState<boolean[]>(WORDS.map(() => false));
-  const [scrambledLetters, setScrambledLetters] = useState<string[]>(
-    WORDS.map(w => w.defaultScramble)
-  );
+  const [scrambledLetters, setScrambledLetters] = useState<string[]>(WORDS.map(w => w.defaultScramble));
   const [shaking, setShaking] = useState(false);
   const [flashGreen, setFlashGreen] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -79,17 +67,12 @@ export default function KatseyePuzzle({ onSolve, isSolved }: KatseyePuzzleProps)
       setTimeout(() => setFlashGreen(false), 600);
 
       if (newSolved.every(Boolean)) {
-        setTimeout(() => {
-          setShowSuccess(true);
-          onSolve();
-        }, 700);
+        setTimeout(() => { setShowSuccess(true); onSolve(); }, 700);
       } else {
-        // Move to next unsolved word
         setTimeout(() => {
           const nextUnsolved = newSolved.findIndex((s, i) => !s && i > currentIndex);
-          if (nextUnsolved !== -1) {
-            setCurrentIndex(nextUnsolved);
-          } else {
+          if (nextUnsolved !== -1) { setCurrentIndex(nextUnsolved); }
+          else {
             const firstUnsolved = newSolved.findIndex(s => !s);
             if (firstUnsolved !== -1) setCurrentIndex(firstUnsolved);
           }
@@ -102,9 +85,7 @@ export default function KatseyePuzzle({ onSolve, isSolved }: KatseyePuzzleProps)
   }, [guess, currentIndex, solvedWords, isSolved, onSolve]);
 
   const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      checkAnswer();
-    }
+    if (e.key === 'Enter') checkAnswer();
   }, [checkAnswer]);
 
   const handleShuffle = useCallback(() => {
@@ -119,36 +100,24 @@ export default function KatseyePuzzle({ onSolve, isSolved }: KatseyePuzzleProps)
   const currentScrambled = scrambledLetters[currentIndex];
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="flex flex-col items-center gap-6 w-full max-w-lg"
-    >
-      <h2 className="text-2xl font-bold text-pink-300">In the Spotlight</h2>
-      <p className="text-pink-200/70 text-sm text-center">
-        These letters are all mixed up. Unscramble each word &mdash; you know these by heart, Julie.
-      </p>
-
-      {/* Progress indicator */}
+    <div className="flex flex-col items-center gap-5">
+      {/* Progress */}
       <div className="flex items-center gap-3">
-        <span className="text-sm text-pink-300/70">
-          {solvedCount} / {WORDS.length} words solved
+        <span className="text-sm text-white/40">
+          {solvedCount} / {WORDS.length} l&oslash;st
         </span>
         <div className="flex gap-1.5">
           {WORDS.map((_, i) => (
             <button
               key={i}
-              onClick={() => {
-                if (!solvedWords[i] || isSolved) setCurrentIndex(i);
-              }}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+              onClick={() => { if (!solvedWords[i] || isSolved) setCurrentIndex(i); }}
+              className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
                 solvedWords[i]
                   ? 'bg-emerald-400 scale-110'
                   : i === currentIndex
                     ? 'bg-pink-400 scale-125'
-                    : 'bg-pink-400/30'
+                    : 'bg-white/15'
               }`}
-              title={`Word ${i + 1}`}
             />
           ))}
         </div>
@@ -163,29 +132,27 @@ export default function KatseyePuzzle({ onSolve, isSolved }: KatseyePuzzleProps)
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -40 }}
             transition={{ duration: 0.3, ease: 'easeInOut' as const }}
-            className={`w-full rounded-2xl border p-6 transition-colors duration-300 ${
+            className={`w-full rounded-xl border p-5 transition-colors duration-300 ${
               flashGreen
-                ? 'bg-emerald-500/15 border-emerald-400/40'
-                : 'bg-white/5 border-pink-400/20'
+                ? 'bg-emerald-500/10 border-emerald-400/30'
+                : 'bg-white/[0.03] border-white/[0.06]'
             }`}
           >
-            {/* Hint */}
-            <p className="text-sm text-pink-200/60 italic mb-4 text-center">
+            <p className="text-sm text-white/40 italic mb-4 text-center">
               Hint: {currentWord.hint}
             </p>
 
-            {/* Scrambled letter tiles */}
-            <div className="flex items-center justify-center gap-2 mb-5 flex-wrap">
+            <div className="flex items-center justify-center gap-1.5 mb-4 flex-wrap">
               {currentScrambled.split('').map((letter, li) => (
                 letter === ' ' ? (
-                  <div key={`${shuffleKey}-space-${li}`} className="w-3" />
+                  <div key={`${shuffleKey}-space-${li}`} className="w-2.5" />
                 ) : (
                   <motion.span
                     key={`${shuffleKey}-${li}-${letter}`}
                     initial={{ rotateY: 90, scale: 0.5 }}
                     animate={{ rotateY: 0, scale: 1 }}
                     transition={{ delay: li * 0.06, duration: 0.3, ease: 'easeOut' as const }}
-                    className="inline-flex items-center justify-center w-10 h-11 rounded-lg font-bold text-xl select-none bg-pink-500/20 text-pink-200 border border-pink-400/30"
+                    className="inline-flex items-center justify-center w-9 h-10 rounded-lg font-bold text-lg select-none bg-pink-500/15 text-pink-200/80 border border-pink-400/20"
                   >
                     {letter}
                   </motion.span>
@@ -193,17 +160,15 @@ export default function KatseyePuzzle({ onSolve, isSolved }: KatseyePuzzleProps)
               ))}
             </div>
 
-            {/* Shuffle button */}
             <div className="flex justify-center mb-4">
               <button
                 onClick={handleShuffle}
-                className="px-4 py-1.5 rounded-lg bg-fuchsia-500/15 border border-fuchsia-400/25 text-fuchsia-300 text-sm hover:bg-fuchsia-500/25 transition-colors"
+                className="px-3 py-1.5 rounded-lg bg-white/[0.04] border border-white/[0.08] text-white/50 text-xs hover:bg-white/[0.08] transition-colors"
               >
-                Shuffle
+                Stokk om
               </button>
             </div>
 
-            {/* Input and check */}
             <motion.div
               className="flex gap-2"
               animate={shaking ? { x: [0, -8, 8, -8, 8, 0] } : {}}
@@ -214,32 +179,28 @@ export default function KatseyePuzzle({ onSolve, isSolved }: KatseyePuzzleProps)
                 value={guess}
                 onChange={(e) => setGuess(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Type your answer..."
+                placeholder="Skriv svaret ditt..."
                 maxLength={currentWord.answer.length + 2}
-                className="flex-1 px-3 py-2 rounded-lg bg-white/5 border border-pink-400/20 text-pink-100 placeholder-pink-300/30 outline-none focus:border-pink-400/50 text-sm uppercase tracking-widest"
+                className="flex-1 px-3 py-2 rounded-lg bg-white/[0.03] border border-white/[0.08] text-white/80 placeholder-white/20 outline-none focus:border-pink-400/40 text-sm uppercase tracking-widest"
                 disabled={isSolved}
                 autoFocus
               />
               <button
                 onClick={checkAnswer}
-                className="px-4 py-2 rounded-lg bg-pink-500/20 border border-pink-400/30 text-pink-300 text-sm hover:bg-pink-500/30 transition-colors"
+                className="px-4 py-2 rounded-lg bg-white/[0.06] border border-white/[0.08] text-white/60 text-sm hover:bg-white/[0.10] transition-colors"
               >
-                Check
+                Sjekk
               </button>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Solved words summary */}
+      {/* Solved words */}
       {solvedCount > 0 && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="w-full space-y-2"
-        >
-          <p className="text-xs text-pink-300/50 uppercase tracking-wider text-center">
-            Solved Words
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="w-full space-y-2">
+          <p className="text-xs text-white/25 uppercase tracking-wider text-center">
+            L&oslash;ste ord
           </p>
           <div className="flex flex-wrap justify-center gap-2">
             {WORDS.map((word, i) =>
@@ -248,7 +209,7 @@ export default function KatseyePuzzle({ onSolve, isSolved }: KatseyePuzzleProps)
                   key={i}
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-400/25 text-emerald-300 text-sm font-medium"
+                  className="px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-400/20 text-emerald-300/80 text-xs font-medium"
                 >
                   {word.answer}
                 </motion.span>
@@ -258,34 +219,17 @@ export default function KatseyePuzzle({ onSolve, isSolved }: KatseyePuzzleProps)
         </motion.div>
       )}
 
-      {/* Already solved badge */}
-      {isSolved && !showSuccess && (
+      {(isSolved || showSuccess) && (
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="text-center py-3 px-6 rounded-xl bg-pink-500/20 border border-pink-400/30"
+          className="text-center py-3 px-5 rounded-xl bg-pink-500/10 border border-pink-400/20"
         >
-          <p className="text-pink-300 font-semibold text-lg">
-            Puzzle Complete!
+          <p className="text-pink-300/80 text-sm font-medium">
+            Oppgave fullf&oslash;rt!
           </p>
         </motion.div>
       )}
-
-      {/* Success message */}
-      <AnimatePresence>
-        {showSuccess && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0 }}
-            className="text-center py-4 px-6 rounded-xl bg-pink-500/20 border border-pink-400/30"
-          >
-            <p className="text-pink-300 font-semibold text-lg">
-              Every word in its place. Just like you, Julie.
-            </p>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.div>
+    </div>
   );
 }

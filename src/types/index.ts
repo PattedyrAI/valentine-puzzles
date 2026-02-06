@@ -3,7 +3,6 @@ export interface PuzzleConfig {
   title: string;
   subtitle: string;
   description: string;
-  unlockDate: string; // YYYY-MM-DD
   type: PuzzleType;
   clue: string; // base64-encoded clue text
   icon: string;
@@ -22,4 +21,5 @@ export type PuzzleType =
 export interface Progress {
   solved: number[]; // puzzle IDs that have been solved
   clues: Record<number, string>; // puzzle ID -> revealed clue text
+  solvedAt: Record<number, number>; // puzzle ID -> timestamp when solved
 }

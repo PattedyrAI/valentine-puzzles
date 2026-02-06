@@ -148,15 +148,15 @@ export default function LondonPuzzle({ onSolve, isSolved }: LondonPuzzleProps) {
       className="flex flex-col items-center gap-5"
     >
       <div className="text-center">
-        <h2 className="text-2xl font-bold text-blue-300">London Maze</h2>
+        <h2 className="text-xl font-bold text-blue-300">London-labyrinten</h2>
         <p className="text-blue-200/60 text-sm mt-1">
-          Tower of London → Big Ben
+          Tower of London &rarr; Big Ben
         </p>
       </div>
 
-      <p className="text-blue-200/70 text-sm text-center max-w-sm">
-        One last winding path, Julie. Click adjacent cells or use arrow keys
-        to find your way through.
+      <p className="text-blue-200/70 text-sm text-center">
+        En siste kronglete sti, Julie. Klikk p&aring; naboceller eller bruk piltastene
+        for &aring; finne veien gjennom.
       </p>
 
       {isSolved && (
@@ -166,14 +166,14 @@ export default function LondonPuzzle({ onSolve, isSolved }: LondonPuzzleProps) {
           transition={{ ease: [0.4, 0, 0.2, 1] as const }}
           className="px-4 py-1.5 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-300 text-sm font-medium"
         >
-          Solved
+          Oppgave fullf&oslash;rt!
         </motion.div>
       )}
 
       <div
         className="glass-card p-3 rounded-xl inline-block"
         role="grid"
-        aria-label="London maze grid"
+        aria-label="London-labyrint"
       >
         <div
           className="inline-grid gap-0.5"
@@ -201,10 +201,10 @@ export default function LondonPuzzle({ onSolve, isSolved }: LondonPuzzleProps) {
                     isStart
                       ? 'Start: Tower of London'
                       : isEnd
-                        ? 'End: Big Ben'
+                        ? 'M\u00E5l: Big Ben'
                         : cell === 0
-                          ? 'Wall'
-                          : 'Path'
+                          ? 'Vegg'
+                          : 'Sti'
                   }
                 >
                   {isPos && (
@@ -241,7 +241,7 @@ export default function LondonPuzzle({ onSolve, isSolved }: LondonPuzzleProps) {
             onClick={handleReset}
             className="px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-400/30 text-blue-300 text-sm hover:bg-blue-500/30 transition-colors"
           >
-            Reset Position
+            Tilbakestill
           </button>
         )}
       </div>
@@ -249,11 +249,11 @@ export default function LondonPuzzle({ onSolve, isSolved }: LondonPuzzleProps) {
       <div className="flex flex-wrap gap-4 text-xs text-blue-200/60 justify-center">
         <span className="flex items-center gap-1">
           <span className="w-3 h-3 rounded-sm bg-slate-800 border border-slate-700/50 inline-block" />{' '}
-          Buildings
+          Bygninger
         </span>
         <span className="flex items-center gap-1">
           <span className="w-3 h-3 rounded-sm bg-slate-400/20 inline-block" />{' '}
-          Street
+          Gate
         </span>
         <span className="flex items-center gap-1">
           <span className="w-3 h-3 rounded-sm bg-blue-400/50 inline-block" />{' '}
@@ -265,11 +265,11 @@ export default function LondonPuzzle({ onSolve, isSolved }: LondonPuzzleProps) {
         </span>
         <span className="flex items-center gap-1">
           <span className="w-3 h-3 rounded-full bg-red-500 border-2 border-red-300 inline-block" />{' '}
-          You
+          Deg
         </span>
         <span className="flex items-center gap-1">
           <span className="w-3 h-3 rounded-sm bg-blue-300/25 inline-block" />{' '}
-          Visited
+          Bes&oslash;kt
         </span>
       </div>
 
@@ -282,8 +282,8 @@ export default function LondonPuzzle({ onSolve, isSolved }: LondonPuzzleProps) {
             transition={{ ease: [0.4, 0, 0.2, 1] as const }}
             className="text-center py-3 px-6 rounded-xl bg-blue-500/20 border border-blue-400/30"
           >
-            <p className="text-blue-300 font-semibold text-lg">
-              You found your way, Julie. You always do.
+            <p className="text-blue-300 font-semibold text-sm">
+              Du fant veien, Julie. Det gj&oslash;r du alltid.
             </p>
           </motion.div>
         )}

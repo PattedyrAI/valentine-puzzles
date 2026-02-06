@@ -7,32 +7,11 @@ import { puzzles } from '../config/puzzles';
 import { TOTAL_PUZZLES } from '../config/constants';
 import PageWrapper from '../components/layout/PageWrapper';
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.15,
-      delayChildren: 0.3,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: 'easeOut' as const },
-  },
-};
-
 const FinalRevealPage = () => {
   const { progress } = useProgress();
   const { fireConfetti } = useConfetti();
   const allSolved = progress.solved.length === TOTAL_PUZZLES;
 
-  // Fire confetti on mount
   useEffect(() => {
     if (allSolved) {
       fireConfetti();
@@ -41,90 +20,76 @@ const FinalRevealPage = () => {
     }
   }, [allSolved, fireConfetti]);
 
-  // Redirect if not all puzzles solved
   if (!allSolved) {
     return <Navigate to="/" replace />;
   }
 
-  // Assemble clues in order
   const orderedClues = puzzles.map((puzzle) => ({
     id: puzzle.id,
-    title: puzzle.title,
     icon: puzzle.icon,
-    clue: progress.clues[puzzle.id] || atob(puzzle.clue),
+    clue: progress.clues[puzzle.id] || decodeURIComponent(Array.from(atob(puzzle.clue), (c) => '%' + c.charCodeAt(0).toString(16).padStart(2, '0')).join('')),
   }));
 
   return (
     <PageWrapper>
       <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        className="text-center"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
       >
         {/* Header */}
-        <motion.div variants={itemVariants} className="mb-12">
-          <p className="font-accent text-3xl md:text-4xl text-rose-300 mb-4">
-            Julie, you did it.
+        <div className="text-center mb-10">
+          <p className="font-accent text-2xl pink-glow-strong mb-2">
+            Julie, du klarte det.
           </p>
-          <h1 className="romantic-gradient-text text-3xl md:text-4xl font-bold mb-4">
-            Every Piece Leads to You
+          <h1
+            className="text-lg md:text-xl font-semibold pink-glow animate-glow-pulse mb-3"
+            style={{ fontFamily: "'Playfair Display', serif" }}
+          >
+            Alle sporene f&oslash;rer til deg
           </h1>
-          <p className="text-[#fef3e2]/70 text-base md:text-lg max-w-xl mx-auto">
-            You&apos;ve solved every puzzle I made for you.
-            Now read the clues together &mdash; they lead somewhere special.
+          <p className="text-rose-200/30 text-xs max-w-sm mx-auto">
+            Du har l&oslash;st alle oppgavene. Les sporene sammen &mdash; de leder
+            et sted spesielt.
           </p>
-        </motion.div>
+        </div>
 
-        {/* Clue cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
-          {orderedClues.map((item) => (
+        {/* Clue list */}
+        <div className="space-y-1.5 mb-12 max-w-sm mx-auto">
+          {orderedClues.map((item, i) => (
             <motion.div
               key={item.id}
-              variants={itemVariants}
-              className="glass-card p-5 text-left"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2 + i * 0.08 }}
+              className="flex items-center gap-3 rounded-lg border border-white/[0.04] bg-white/[0.02] px-4 py-3"
             >
-              <div className="flex items-start gap-3">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-300 text-sm font-bold">
-                  {item.id}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="text-lg">{item.icon}</span>
-                    <span className="text-[#fef3e2]/50 text-xs font-medium truncate">
-                      {item.title}
-                    </span>
-                  </div>
-                  <p
-                    className="text-yellow-300 font-semibold text-sm leading-relaxed"
-                    style={{ fontFamily: "'Playfair Display', serif" }}
-                  >
-                    &ldquo;{item.clue}&rdquo;
-                  </p>
-                </div>
-              </div>
+              <span className="text-white/15 text-[10px] font-mono w-3 shrink-0 text-right">
+                {item.id}
+              </span>
+              <span className="text-sm shrink-0">{item.icon}</span>
+              <p className="text-rose-300/70 text-xs leading-relaxed">
+                {item.clue}
+              </p>
             </motion.div>
           ))}
         </div>
 
         {/* Final reveal */}
         <motion.div
-          variants={itemVariants}
-          className="mb-12 py-10 px-6 rounded-3xl border-2 border-yellow-500/40 bg-yellow-900/10"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.2, duration: 0.6 }}
+          className="text-center mb-10"
         >
-          <motion.p
+          <p className="text-white/20 text-[10px] uppercase tracking-[0.3em] mb-4">
+            Din valentinsdagdestinasjon
+          </p>
+          <motion.h2
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 2.0, duration: 0.8 }}
-            className="text-yellow-400/80 text-xs uppercase tracking-[0.3em] mb-6"
-          >
-            Your Valentine&apos;s Day Destination
-          </motion.p>
-          <motion.h2
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 2.5, duration: 0.8, ease: 'easeOut' }}
-            className="gold-glow text-3xl md:text-5xl font-bold text-yellow-300 mb-6"
+            transition={{ delay: 1.6, duration: 0.6 }}
+            className="text-xl md:text-3xl font-semibold pink-glow-strong mb-4"
             style={{ fontFamily: "'Playfair Display', serif" }}
           >
             Dronningens gate 25, Oslo
@@ -132,29 +97,31 @@ const FinalRevealPage = () => {
           <motion.div
             initial={{ scaleX: 0 }}
             animate={{ scaleX: 1 }}
-            transition={{ delay: 3.0, duration: 0.6 }}
-            className="h-px bg-gradient-to-r from-transparent via-yellow-500/50 to-transparent mb-6 max-w-sm mx-auto"
+            transition={{ delay: 2.0, duration: 0.4 }}
+            className="h-px bg-white/[0.06] mb-4 max-w-[200px] mx-auto"
           />
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 3.3, duration: 0.8 }}
-            className="font-accent text-2xl md:text-3xl text-rose-300"
+            transition={{ delay: 2.2, duration: 0.6 }}
+            className="font-accent text-lg pink-glow"
           >
-            See you on Valentine&apos;s Day at 18:00, Julie! &#128149;
+            Vi sees kl. 18:00 den 14. februar, Julie!
           </motion.p>
         </motion.div>
 
-        {/* Back link */}
-        <motion.div variants={itemVariants}>
+        {/* Back */}
+        <div className="text-center">
           <Link
             to="/"
-            className="inline-flex items-center gap-2 text-rose-300/70 hover:text-rose-200 transition-colors text-sm no-underline"
+            className="inline-flex items-center gap-1.5 text-white/30 hover:text-white/60 transition-colors text-xs no-underline"
           >
-            <span>&larr;</span>
-            <span>Back to puzzles</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M15 18l-6-6 6-6" />
+            </svg>
+            <span>Tilbake</span>
           </Link>
-        </motion.div>
+        </div>
       </motion.div>
     </PageWrapper>
   );

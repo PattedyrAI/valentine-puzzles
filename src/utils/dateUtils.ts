@@ -1,27 +1,36 @@
+import { UNLOCK_DELAY_MS } from '../config/constants';
+
 /**
- * Check if a puzzle should be unlocked based on the current date.
- * Compares dates in YYYY-MM-DD format.
+ * Check if a puzzle is unlocked in the sequential system.
+ * Puzzle 1 is always unlocked. Others require the previous puzzle
+ * to have been solved at least 24 hours ago.
  */
-export function isPuzzleUnlocked(unlockDate: string): boolean {
-  const now = new Date();
-  const unlock = new Date(unlockDate + 'T00:00:00');
-  return now >= unlock;
+export function isPuzzleUnlockedSequential(
+  puzzleId: number,
+  solvedAt: Record<number, number>
+): boolean {
+  if (puzzleId === 1) return true;
+  const prevSolvedTime = solvedAt[puzzleId - 1];
+  if (!prevSolvedTime) return false;
+  return Date.now() >= prevSolvedTime + UNLOCK_DELAY_MS;
 }
 
 /**
- * Get the time remaining until a puzzle unlocks.
- * Returns null if the puzzle is already unlocked.
+ * Get the time remaining until a puzzle unlocks sequentially.
+ * Returns null if already unlocked or if previous puzzle isn't solved yet.
  */
-export function getTimeUntilUnlock(
-  unlockDate: string
+export function getTimeUntilUnlockSequential(
+  puzzleId: number,
+  solvedAt: Record<number, number>
 ): { days: number; hours: number; minutes: number; seconds: number } | null {
-  const now = new Date();
-  const unlock = new Date(unlockDate + 'T00:00:00');
-  const diff = unlock.getTime() - now.getTime();
+  if (puzzleId === 1) return null;
+  const prevSolvedTime = solvedAt[puzzleId - 1];
+  if (!prevSolvedTime) return null;
 
-  if (diff <= 0) {
-    return null;
-  }
+  const unlockTime = prevSolvedTime + UNLOCK_DELAY_MS;
+  const diff = unlockTime - Date.now();
+
+  if (diff <= 0) return null;
 
   const days = Math.floor(diff / (1000 * 60 * 60 * 24));
   const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -29,15 +38,4 @@ export function getTimeUntilUnlock(
   const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
   return { days, hours, minutes, seconds };
-}
-
-/**
- * Format a YYYY-MM-DD date string into a readable format like "February 4".
- */
-export function formatDate(dateStr: string): string {
-  const date = new Date(dateStr + 'T00:00:00');
-  return date.toLocaleDateString('en-US', {
-    month: 'long',
-    day: 'numeric',
-  });
 }

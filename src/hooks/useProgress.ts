@@ -16,7 +16,7 @@ export function useProgress() {
 
   const resetAll = useCallback(() => {
     storageReset();
-    setProgress({ solved: [], clues: {} });
+    setProgress({ solved: [], clues: {}, solvedAt: {} });
   }, []);
 
   const isSolved = useCallback(

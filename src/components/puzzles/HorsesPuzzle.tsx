@@ -6,239 +6,189 @@ interface HorsesPuzzleProps {
   isSolved: boolean;
 }
 
-interface HorsePair {
-  breed: string;
-  description: string;
+interface Question {
+  question: string;
+  options: string[];
+  correct: number;
 }
 
-const PAIRS: HorsePair[] = [
+const QUESTIONS: Question[] = [
   {
-    breed: 'Arabian',
-    description: 'Ancient desert breed with a concave profile and naturally high tail set',
+    question: 'Hvilken hesterase er født mørk og blir gradvis hvit med alderen?',
+    options: ['Araber', 'Lipizzaner', 'Andalusier', 'Frieser'],
+    correct: 1,
   },
   {
-    breed: 'Clydesdale',
-    description: 'Scottish draft breed with heavy bone and silky leg feathering',
+    question: 'Akhal-Teke er kjent for hvilket særtrekk?',
+    options: ['Krøllete man', 'Metallisk skinnende pels', 'Blå øyne', 'Flekkete mønster'],
+    correct: 1,
   },
   {
-    breed: 'Friesian',
-    description: 'Black Dutch warmblood with arched neck and feathered fetlocks',
+    question: 'Hvilken rase har en mørk stripe gjennom manen?',
+    options: ['Haflinger', 'Fjordhest', 'Mustang', 'Clydesdale'],
+    correct: 1,
   },
   {
-    breed: 'Fjord',
-    description: 'Dun-colored Norwegian breed with a dark dorsal stripe through its mane',
+    question: 'Hva kalles de fjærlignende hårdottene på en Clydesdales nedre ben?',
+    options: ['Plymmer', 'Hovskjegg', 'Strømper', 'Frynser'],
+    correct: 1,
   },
   {
-    breed: 'Lipizzaner',
-    description: 'Born dark, turns white with age; trained in classical haute \u00E9cole dressage',
+    question: 'Hvilken rase kalles også «Den rene spanske hesten»?',
+    options: ['Lusitano', 'Andalusier', 'Paso Fino', 'Azteca'],
+    correct: 1,
   },
   {
-    breed: 'Andalusian',
-    description: 'Iberian breed prized for collection and known as the Pure Spanish Horse',
-  },
-  {
-    breed: 'Akhal-Teke',
-    description: 'Turkmen breed famous for its metallic sheen coat and extreme endurance',
-  },
-  {
-    breed: 'Haflinger',
-    description: 'Chestnut Alpine breed from Tyrol with a flaxen mane and compact build',
+    question: 'Arabere er kjent for å ha færre av hvilke knokler enn andre hester?',
+    options: ['Beinknokler', 'Ribbein og virvler', 'Hodeskalleplater', 'Tenner'],
+    correct: 1,
   },
 ];
 
-// Shuffle helper using Fisher-Yates
-function shuffle<T>(arr: T[]): T[] {
-  const result = [...arr];
-  for (let i = result.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [result[i], result[j]] = [result[j], result[i]];
-  }
-  return result;
-}
-
-// Pre-shuffle the descriptions (indices) so breeds and descriptions don't line up
-const SHUFFLED_BREEDS = shuffle(PAIRS.map((_, i) => i));
-const SHUFFLED_DESCRIPTIONS = shuffle(PAIRS.map((_, i) => i));
-
-const shakeAnimation = {
-  x: [0, -8, 8, -6, 6, -3, 3, 0],
-  transition: { duration: 0.4, ease: 'easeInOut' as const },
-};
+const REQUIRED_CORRECT = 5;
 
 export default function HorsesPuzzle({ onSolve, isSolved }: HorsesPuzzleProps) {
-  const [selectedBreed, setSelectedBreed] = useState<number | null>(null);
-  const [selectedDescription, setSelectedDescription] = useState<number | null>(null);
-  const [matched, setMatched] = useState<Set<number>>(new Set());
-  const [wrongBreed, setWrongBreed] = useState<number | null>(null);
-  const [wrongDescription, setWrongDescription] = useState<number | null>(null);
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [score, setScore] = useState(0);
+  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
+  const [showResult, setShowResult] = useState(false);
+  const [isFinished, setIsFinished] = useState(false);
 
-  const matchCount = matched.size;
+  const question = QUESTIONS[currentQuestion];
+  const isCorrect = selectedAnswer === question?.correct;
 
-  const tryMatch = useCallback(
-    (breedIndex: number, descIndex: number) => {
-      if (breedIndex === descIndex) {
-        // Correct match
-        const next = new Set(matched);
-        next.add(breedIndex);
-        setMatched(next);
-        setSelectedBreed(null);
-        setSelectedDescription(null);
+  const handleSelect = useCallback(
+    (index: number) => {
+      if (selectedAnswer !== null || isSolved) return;
+      setSelectedAnswer(index);
+      setShowResult(true);
 
-        if (next.size === PAIRS.length && !isSolved) {
-          setTimeout(() => onSolve(), 400);
+      const newScore = index === question.correct ? score + 1 : score;
+      if (index === question.correct) {
+        setScore(newScore);
+      }
+
+      setTimeout(() => {
+        if (currentQuestion < QUESTIONS.length - 1) {
+          setCurrentQuestion((prev) => prev + 1);
+          setSelectedAnswer(null);
+          setShowResult(false);
+        } else {
+          setIsFinished(true);
+          if (newScore >= REQUIRED_CORRECT && !isSolved) {
+            setTimeout(() => onSolve(), 300);
+          }
         }
-      } else {
-        // Wrong match — shake both
-        setWrongBreed(breedIndex);
-        setWrongDescription(descIndex);
-        setTimeout(() => {
-          setWrongBreed(null);
-          setWrongDescription(null);
-          setSelectedBreed(null);
-          setSelectedDescription(null);
-        }, 500);
-      }
+      }, 1200);
     },
-    [matched, isSolved, onSolve],
+    [selectedAnswer, isSolved, question, score, currentQuestion, onSolve],
   );
 
-  const handleBreedClick = useCallback(
-    (pairIndex: number) => {
-      if (matched.has(pairIndex) || wrongBreed !== null) return;
-      setSelectedBreed(pairIndex);
-      if (selectedDescription !== null) {
-        tryMatch(pairIndex, selectedDescription);
-      }
-    },
-    [matched, selectedDescription, wrongBreed, tryMatch],
-  );
+  const handleRetry = useCallback(() => {
+    setCurrentQuestion(0);
+    setScore(0);
+    setSelectedAnswer(null);
+    setShowResult(false);
+    setIsFinished(false);
+  }, []);
 
-  const handleDescriptionClick = useCallback(
-    (pairIndex: number) => {
-      if (matched.has(pairIndex) || wrongDescription !== null) return;
-      setSelectedDescription(pairIndex);
-      if (selectedBreed !== null) {
-        tryMatch(selectedBreed, pairIndex);
-      }
-    },
-    [matched, selectedBreed, wrongDescription, tryMatch],
-  );
+  if (isSolved) {
+    return (
+      <div className="text-center py-8">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="inline-block px-5 py-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20"
+        >
+          <span className="text-emerald-400 text-sm font-medium">
+            Oppgave fullf&oslash;rt
+          </span>
+        </motion.div>
+      </div>
+    );
+  }
+
+  if (isFinished && score < REQUIRED_CORRECT) {
+    return (
+      <div className="text-center py-8">
+        <div className="inline-block p-6 rounded-xl bg-white/[0.03] border border-white/[0.06]">
+          <p className="text-white/60 text-sm mb-1">
+            {score} av {QUESTIONS.length} riktige
+          </p>
+          <p className="text-white/35 text-xs mb-4">
+            Du trenger minst {REQUIRED_CORRECT} for &aring; best&aring;.
+          </p>
+          <button
+            onClick={handleRetry}
+            className="px-4 py-2 rounded-lg bg-white/[0.06] text-white/70 text-sm hover:bg-white/[0.10] transition-colors border border-white/[0.08]"
+          >
+            Pr&oslash;v igjen
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="space-y-6">
-      {/* Solved badge */}
-      <AnimatePresence>
-        {isSolved && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="flex justify-center"
-          >
-            <span className="px-4 py-1.5 rounded-full bg-gradient-to-r from-amber-400 to-yellow-300 text-sm font-semibold text-amber-900 shadow-lg">
-              Puzzle Solved!
-            </span>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Progress counter */}
-      <div className="text-center">
-        <span className="text-rose-200 text-sm font-medium">
-          {matchCount}/{PAIRS.length} matched
+    <div>
+      {/* Progress */}
+      <div className="flex items-center justify-between mb-4">
+        <span className="text-white/30 text-xs">
+          Sp&oslash;rsm&aring;l {currentQuestion + 1} av {QUESTIONS.length}
+        </span>
+        <span className="text-white/30 text-xs">
+          {score} riktige
         </span>
       </div>
 
-      {/* Instructions */}
-      {!isSolved && matchCount < PAIRS.length && (
-        <p className="text-center text-rose-300/70 text-sm">
-          Click a breed, then click its matching description
-        </p>
-      )}
-
-      {/* Matching grid */}
-      <div className="flex flex-col md:flex-row gap-4 md:gap-6">
-        {/* Breeds column */}
-        <div className="flex-1 space-y-3">
-          <h3 className="text-emerald-400 font-semibold text-center text-sm uppercase tracking-wider mb-2">
-            Breeds
-          </h3>
-          {SHUFFLED_BREEDS.map((pairIndex) => {
-            const pair = PAIRS[pairIndex];
-            const isMatched = matched.has(pairIndex);
-            const isSelected = selectedBreed === pairIndex;
-            const isWrong = wrongBreed === pairIndex;
-
-            return (
-              <motion.button
-                key={pair.breed}
-                onClick={() => handleBreedClick(pairIndex)}
-                disabled={isMatched}
-                animate={isWrong ? shakeAnimation : {}}
-                whileHover={!isMatched ? { scale: 1.02 } : {}}
-                whileTap={!isMatched ? { scale: 0.98 } : {}}
-                className={`w-full px-4 py-3 rounded-2xl text-left text-sm font-medium transition-colors duration-200
-                  backdrop-blur-md border
-                  ${
-                    isMatched
-                      ? 'bg-emerald-500/20 border-emerald-400/40 text-emerald-300 shadow-[0_0_12px_rgba(52,211,153,0.25)]'
-                      : isWrong
-                        ? 'bg-red-500/20 border-red-400/50 text-red-300'
-                        : isSelected
-                          ? 'bg-emerald-400/15 border-emerald-400/40 text-white'
-                          : 'bg-white/10 border-white/20 text-rose-200 hover:bg-white/15 hover:border-white/30'
-                  }
-                `}
-              >
-                <span className="flex items-center gap-2">
-                  {isMatched && <span className="text-emerald-400">&#10003;</span>}
-                  {pair.breed}
-                </span>
-              </motion.button>
-            );
-          })}
-        </div>
-
-        {/* Descriptions column */}
-        <div className="flex-1 space-y-3">
-          <h3 className="text-emerald-400 font-semibold text-center text-sm uppercase tracking-wider mb-2">
-            Descriptions
-          </h3>
-          {SHUFFLED_DESCRIPTIONS.map((pairIndex) => {
-            const pair = PAIRS[pairIndex];
-            const isMatched = matched.has(pairIndex);
-            const isSelected = selectedDescription === pairIndex;
-            const isWrong = wrongDescription === pairIndex;
-
-            return (
-              <motion.button
-                key={pair.description}
-                onClick={() => handleDescriptionClick(pairIndex)}
-                disabled={isMatched}
-                animate={isWrong ? shakeAnimation : {}}
-                whileHover={!isMatched ? { scale: 1.02 } : {}}
-                whileTap={!isMatched ? { scale: 0.98 } : {}}
-                className={`w-full px-4 py-3 rounded-2xl text-left text-sm transition-colors duration-200
-                  backdrop-blur-md border
-                  ${
-                    isMatched
-                      ? 'bg-emerald-500/20 border-emerald-400/40 text-emerald-300 shadow-[0_0_12px_rgba(52,211,153,0.25)]'
-                      : isWrong
-                        ? 'bg-red-500/20 border-red-400/50 text-red-300'
-                        : isSelected
-                          ? 'bg-emerald-400/15 border-emerald-400/40 text-white'
-                          : 'bg-white/10 border-white/20 text-rose-200 hover:bg-white/15 hover:border-white/30'
-                  }
-                `}
-              >
-                <span className="flex items-center gap-2">
-                  {isMatched && <span className="text-emerald-400">&#10003;</span>}
-                  {pair.description}
-                </span>
-              </motion.button>
-            );
-          })}
-        </div>
+      <div className="w-full h-0.5 rounded-full bg-white/[0.06] mb-6">
+        <motion.div
+          className="h-full rounded-full bg-emerald-500/60"
+          animate={{ width: `${((currentQuestion) / QUESTIONS.length) * 100}%` }}
+          transition={{ duration: 0.3 }}
+        />
       </div>
+
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={currentQuestion}
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -20 }}
+          transition={{ duration: 0.25 }}
+        >
+          <p className="text-white/80 text-sm font-medium leading-relaxed mb-5 text-center">
+            {question.question}
+          </p>
+
+          <div className="space-y-2">
+            {question.options.map((option, i) => {
+              let style = 'bg-white/[0.04] border-white/[0.08] text-white/70 hover:bg-white/[0.08]';
+
+              if (showResult) {
+                if (i === question.correct) {
+                  style = 'bg-emerald-500/15 border-emerald-500/30 text-emerald-400';
+                } else if (i === selectedAnswer && !isCorrect) {
+                  style = 'bg-red-500/10 border-red-500/20 text-red-400/80';
+                } else {
+                  style = 'bg-white/[0.02] border-white/[0.04] text-white/30';
+                }
+              }
+
+              return (
+                <button
+                  key={i}
+                  onClick={() => handleSelect(i)}
+                  disabled={showResult}
+                  className={`w-full px-4 py-3 rounded-lg text-left text-sm transition-colors duration-150 border ${style}`}
+                >
+                  {option}
+                </button>
+              );
+            })}
+          </div>
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 }

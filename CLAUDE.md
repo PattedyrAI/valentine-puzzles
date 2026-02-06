@@ -15,7 +15,7 @@ Build output goes to `dist/`. Base path is `/valentine-puzzles/` for GitHub Page
 
 ## Architecture
 
-This is a Valentine's Day puzzle countdown SPA — 7 puzzles unlocking daily (Feb 7–13, 2026), each with a unique theme and revealing a clue leading to a final destination reveal. Built with React 19, TypeScript 5.9 (strict mode), Vite 7, Tailwind CSS 4, Framer Motion, and @dnd-kit.
+This is a Valentine's Day puzzle countdown SPA — 7 puzzles with sequential unlocking (each unlocks 24hrs after solving the previous one; puzzle 1 is always available), each with a unique theme and revealing a clue leading to a final destination reveal. Built with React 19, TypeScript 5.9 (strict mode), Vite 7, Tailwind CSS 4, Framer Motion, and @dnd-kit.
 
 ### Routing
 
@@ -43,15 +43,15 @@ Every puzzle component follows the same interface:
 
 ### State & Persistence
 
-No global state library. Progress is stored in localStorage under `valentine-progress` as `{ solved: number[], clues: Record<number, string> }`. The `useProgress` hook wraps this with React state. `usePuzzleUnlock` handles date-based locking with a 1-second countdown interval.
+No global state library. Progress is stored in localStorage under `valentine-progress` as `{ solved: number[], clues: Record<number, string>, solvedAt: Record<number, number> }`. The `useProgress` hook wraps this with React state. `usePuzzleUnlock` handles sequential locking (24hr delay after solving previous puzzle) with a 1-second countdown interval.
 
 ### Key Constants
 
-`src/config/constants.ts` contains `DEV_MODE` (set `true` to bypass date locks — currently enabled), `HER_NAME` ("Julie"), `LOCATION` ("Dronningens gate 25"), `TOTAL_PUZZLES` (7), and date boundaries.
+`src/config/constants.ts` contains `DEV_MODE` (set `true` to bypass sequential locks — currently enabled), `HER_NAME` ("Julie"), `LOCATION` ("Dronningens gate 25"), `TOTAL_PUZZLES` (7), `UNLOCK_DELAY_MS` (24hrs), and `VALENTINES_DAY`.
 
 ### Styling
 
-Tailwind v4 via Vite plugin (no tailwind.config needed). Custom CSS classes in `src/index.css`: `.glass-card` (frosted glass), `.romantic-gradient-text`, `.gold-glow`, `.animate-heartbeat`, `.animate-float`. Three font families: Playfair Display (headings), Lato (body), Dancing Script (`.font-accent`).
+Tailwind v4 via Vite plugin (no tailwind.config needed). Custom CSS classes in `src/index.css`: `.glass-card` (frosted glass with gradient + inner glow), `.romantic-gradient-text`, `.gold-glow`, `.animate-heartbeat`, `.animate-float`, `.animate-pulse-slow`, `.shimmer-border`. Animated background gradient on body. Theme glow CSS custom properties per puzzle theme. Three font families: Playfair Display (headings), Lato (body), Dancing Script (`.font-accent`).
 
 ## Key Patterns
 

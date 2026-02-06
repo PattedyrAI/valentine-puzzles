@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react';
-import { motion } from 'framer-motion';
 
 interface PageWrapperProps {
   children: ReactNode;
@@ -7,15 +6,11 @@ interface PageWrapperProps {
 
 const PageWrapper = ({ children }: PageWrapperProps) => {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -12 }}
-      transition={{ duration: 0.4, ease: 'easeOut' }}
-      className="max-w-4xl mx-auto px-4 py-8"
-    >
-      {children}
-    </motion.div>
+    <div className="flex-1 flex items-center justify-center px-6 py-10">
+      <div className="w-full max-w-md">
+        {children}
+      </div>
+    </div>
   );
 };
 

@@ -6,7 +6,6 @@ import { usePuzzleUnlock } from '../hooks/usePuzzleUnlock';
 import { useConfetti } from '../hooks/useConfetti';
 import PuzzleShell from '../components/puzzles/PuzzleShell';
 import LockOverlay from '../components/common/LockOverlay';
-import PageWrapper from '../components/layout/PageWrapper';
 import HorsesPuzzle from '../components/puzzles/HorsesPuzzle';
 import KpopDemonPuzzle from '../components/puzzles/KpopDemonPuzzle';
 import KatseyePuzzle from '../components/puzzles/KatseyePuzzle';
@@ -29,15 +28,17 @@ const PuzzlePage = () => {
   const { id } = useParams<{ id: string }>();
   const puzzleId = Number(id);
   const puzzle = puzzles.find((p) => p.id === puzzleId);
-  const { isSolved, markSolved } = useProgress();
-  const { isUnlocked } = usePuzzleUnlock(puzzle?.unlockDate ?? '2099-12-31');
+  const { progress, isSolved, markSolved } = useProgress();
+  const { isUnlocked, timeRemaining, isPrevSolved } = usePuzzleUnlock(
+    puzzle?.id ?? 999,
+    progress.solvedAt
+  );
   const { fireConfetti } = useConfetti();
   const hasConfettiFired = useRef(false);
 
   const solved = puzzle ? isSolved(puzzle.id) : false;
-  const decodedClue = puzzle ? atob(puzzle.clue) : '';
+  const decodedClue = puzzle ? decodeURIComponent(Array.from(atob(puzzle.clue), (c) => '%' + c.charCodeAt(0).toString(16).padStart(2, '0')).join('')) : '';
 
-  // Fire confetti when puzzle becomes solved
   useEffect(() => {
     if (solved && !hasConfettiFired.current) {
       hasConfettiFired.current = true;
@@ -47,16 +48,16 @@ const PuzzlePage = () => {
 
   if (!puzzle) {
     return (
-      <PageWrapper>
-        <div className="text-center py-20">
-          <h2 className="text-2xl font-bold text-[#fef3e2] mb-4">
-            Puzzle Not Found
+      <div className="flex-1 flex items-center justify-center px-6">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold pink-glow mb-4">
+            Fant ikke oppgaven
           </h2>
-          <p className="text-rose-300/70">
-            This puzzle doesn&apos;t exist. Please go back to the home page.
+          <p className="text-rose-200/30">
+            Denne oppgaven finnes ikke. G&aring; tilbake til forsiden.
           </p>
         </div>
-      </PageWrapper>
+      </div>
     );
   }
 
@@ -69,9 +70,13 @@ const PuzzlePage = () => {
   const PuzzleComponent = puzzleComponents[puzzle.type];
 
   return (
-    <>
+    <div className="flex-1 flex flex-col">
       {!isUnlocked && (
-        <LockOverlay unlockDate={puzzle.unlockDate} puzzleTitle={puzzle.title} />
+        <LockOverlay
+          puzzleTitle={puzzle.title}
+          isPrevSolved={isPrevSolved}
+          timeRemaining={timeRemaining}
+        />
       )}
       <PuzzleShell
         title={puzzle.title}
@@ -83,7 +88,7 @@ const PuzzlePage = () => {
       >
         {PuzzleComponent && <PuzzleComponent onSolve={handleSolve} isSolved={solved} />}
       </PuzzleShell>
-    </>
+    </div>
   );
 };
 

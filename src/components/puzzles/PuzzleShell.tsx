@@ -1,6 +1,5 @@
 import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-import PageWrapper from '../layout/PageWrapper';
 import ClueReveal from '../common/ClueReveal';
 
 interface PuzzleShellProps {
@@ -22,38 +21,42 @@ const PuzzleShell = ({
   isSolved,
   clue,
 }: PuzzleShellProps) => {
-  void _onSolve; // used by parent; passed through for puzzle children
+  void _onSolve;
 
   return (
-    <PageWrapper>
-      {/* Back button */}
-      <Link
-        to="/"
-        className="inline-flex items-center gap-2 text-rose-300/70 hover:text-rose-200 transition-colors text-sm mb-6 no-underline"
-      >
-        <span>&larr;</span>
-        <span>Back to puzzles</span>
-      </Link>
-
-      {/* Header */}
-      <div className="mb-8">
-        <h1
-          className="text-3xl md:text-4xl font-bold text-[#fef3e2] mb-3"
-          style={{ fontFamily: "'Playfair Display', serif" }}
+    <div className="flex-1 flex flex-col items-center px-6 py-8">
+      <div className="w-full max-w-md">
+        {/* Back */}
+        <Link
+          to="/"
+          className="inline-flex items-center gap-1.5 text-white/30 hover:text-rose-300/60 transition-colors text-xs mb-8 no-underline"
         >
-          {title}
-        </h1>
-        <p className="text-rose-300/70 text-base leading-relaxed">
-          {description}
-        </p>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M15 18l-6-6 6-6" />
+          </svg>
+          <span>Tilbake</span>
+        </Link>
+
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h1
+            className="text-xl md:text-2xl font-semibold pink-glow mb-2"
+            style={{ fontFamily: "'Playfair Display', serif" }}
+          >
+            {title}
+          </h1>
+          <p className="text-rose-200/30 text-sm leading-relaxed max-w-sm mx-auto">
+            {description}
+          </p>
+        </div>
+
+        {/* Puzzle */}
+        <div className="relative z-10">{children}</div>
+
+        {/* Clue */}
+        {isSolved && <ClueReveal clue={clue} puzzleNumber={puzzleId} />}
       </div>
-
-      {/* Puzzle content */}
-      <div className="relative z-10">{children}</div>
-
-      {/* Clue reveal */}
-      {isSolved && <ClueReveal clue={clue} puzzleNumber={puzzleId} />}
-    </PageWrapper>
+    </div>
   );
 };
 

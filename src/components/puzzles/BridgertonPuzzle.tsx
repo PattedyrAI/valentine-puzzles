@@ -10,6 +10,7 @@ const ENCRYPTED =
   "TLHYLZA YLHKLY AOL KBRL OHZ MPUHSSF MVBUK OPZ KBJOLZZ HUK AOL AVU OHZ ZAPTYLK OLY OLHYA";
 const PLAINTEXT =
   "DEAREST READER THE DUKE HAS FINALLY FOUND HIS DUCHESS AND THE TON HAS STIRRED HER HEART";
+
 function decrypt(text: string, shift: number): string {
   return text
     .split("")
@@ -25,16 +26,13 @@ function decrypt(text: string, shift: number): string {
 
 const Flourish = () => (
   <div className="flex items-center justify-center gap-3 my-2 select-none">
-    <span className="block w-12 h-px bg-amber-400/50" />
-    <span className="text-amber-400/70 text-sm">&#10087;</span>
-    <span className="block w-12 h-px bg-amber-400/50" />
+    <span className="block w-12 h-px bg-amber-400/30" />
+    <span className="text-amber-400/50 text-sm">&#10087;</span>
+    <span className="block w-12 h-px bg-amber-400/30" />
   </div>
 );
 
-export default function BridgertonPuzzle({
-  onSolve,
-  isSolved,
-}: BridgertonPuzzleProps) {
+export default function BridgertonPuzzle({ onSolve, isSolved }: BridgertonPuzzleProps) {
   const [shift, setShift] = useState(0);
   const [submitted, setSubmitted] = useState(false);
 
@@ -49,67 +47,54 @@ export default function BridgertonPuzzle({
   };
 
   return (
-    <div className="flex flex-col items-center gap-6 w-full max-w-2xl mx-auto">
-      {/* Solved badge */}
+    <div className="flex flex-col items-center gap-5">
       <AnimatePresence>
         {isSolved && (
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-gradient-to-r from-amber-400 to-yellow-500 text-rose-900 font-bold px-6 py-2 rounded-full shadow-lg text-lg"
+            className="px-5 py-2 rounded-xl bg-amber-500/10 border border-amber-400/20 text-amber-300/80 text-sm font-medium"
           >
-            &#10003; Decoded by the Ton
+            Dechiffrert av selskapet
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Intro text */}
-      <p className="text-rose-200 text-center text-sm md:text-base italic">
-        &ldquo;Dearest Julie, a cryptic note has been intercepted from Lady Whistledown
-        herself. Only the cleverest of the ton can decode it. Will you be the one?&rdquo;
+      <p className="text-white/40 text-center text-sm italic">
+        &laquo;Kj&aelig;re Julie, et kryptisk brev fra Lady Whistledown selv
+        er blitt fanget opp. Bare de klokeste kan tyde det.&raquo;
       </p>
 
       <Flourish />
 
-      {/* Parchment / encrypted message card */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] as const }}
-        className="w-full backdrop-blur-md bg-amber-900/20 border border-amber-400/30 rounded-2xl p-6 shadow-xl"
-      >
+      {/* Encrypted message */}
+      <div className="w-full rounded-xl bg-amber-900/10 border border-amber-400/15 p-5">
         <h3
-          className="text-amber-300 font-semibold text-center text-base md:text-lg tracking-wide mb-1"
+          className="text-amber-300/70 font-semibold text-center text-sm tracking-wide mb-1"
           style={{ fontFamily: "'Playfair Display', serif" }}
         >
-          Lady Whistledown&rsquo;s Society Papers
+          Lady Whistledowns selskapsavis
         </h3>
         <Flourish />
         <p
-          className="text-amber-100/90 text-sm md:text-base leading-relaxed tracking-wide break-words mt-3 italic"
+          className="text-amber-100/60 text-xs leading-relaxed tracking-wide break-words mt-2 italic"
           style={{ fontFamily: "'Playfair Display', serif" }}
         >
           {ENCRYPTED}
         </p>
-      </motion.div>
+      </div>
 
       {/* Shift control */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.15, ease: [0.22, 1, 0.36, 1] as const }}
-        className="w-full backdrop-blur-md bg-white/10 border border-white/20 rounded-2xl p-6 shadow-xl"
-      >
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-amber-400 font-semibold text-xs uppercase tracking-widest">
-            Cipher Shift
+      <div className="w-full rounded-xl bg-white/[0.03] border border-white/[0.06] p-5">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-amber-400/60 font-semibold text-[10px] uppercase tracking-widest">
+            Chifferskift
           </h3>
-          <span className="text-white font-mono text-2xl font-bold bg-amber-400/15 border border-amber-400/30 px-4 py-1 rounded-lg">
+          <span className="text-white/80 font-mono text-xl font-bold bg-amber-400/10 border border-amber-400/20 px-3 py-0.5 rounded-lg">
             {shift}
           </span>
         </div>
 
-        {/* Slider */}
         <input
           type="range"
           min={0}
@@ -117,52 +102,42 @@ export default function BridgertonPuzzle({
           value={shift}
           onChange={(e) => setShift(parseInt(e.target.value))}
           disabled={isSolved}
-          className="w-full h-2 bg-amber-900/50 rounded-lg appearance-none cursor-pointer accent-amber-400"
+          className="w-full h-1.5 bg-white/[0.06] rounded-lg appearance-none accent-amber-400"
         />
 
-        {/* Quick-select buttons */}
-        <div className="flex flex-wrap gap-1.5 mt-4 justify-center">
+        <div className="flex flex-wrap gap-1 mt-3 justify-center">
           {Array.from({ length: 26 }, (_, i) => (
             <button
               key={i}
               onClick={() => setShift(i)}
               disabled={isSolved}
-              className={`w-8 h-8 rounded-md text-xs font-mono font-bold transition-all ${
+              className={`w-7 h-7 rounded text-[10px] font-mono font-bold transition-all ${
                 shift === i
-                  ? "bg-amber-400 text-rose-900 scale-110 shadow-md shadow-amber-400/40"
-                  : "bg-white/10 text-rose-200 hover:bg-amber-400/20 hover:text-amber-200"
-              } disabled:opacity-50 disabled:cursor-not-allowed`}
+                  ? "bg-amber-400/80 text-black scale-110"
+                  : "bg-white/[0.04] text-white/40 hover:bg-amber-400/15"
+              } disabled:opacity-40`}
             >
               {i}
             </button>
           ))}
         </div>
-      </motion.div>
+      </div>
 
-      {/* Decoded result card */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={
+      {/* Decoded result */}
+      <div
+        className={`w-full rounded-xl border p-5 transition-colors duration-500 ${
           isCorrect
-            ? { opacity: 1, y: 0, scale: [1, 1.02, 1] }
-            : { opacity: 1, y: 0 }
-        }
-        transition={{ duration: 0.6, delay: 0.3, ease: [0.22, 1, 0.36, 1] as const }}
-        className={`w-full backdrop-blur-md border rounded-2xl p-6 shadow-xl transition-colors duration-500 ${
-          isCorrect
-            ? "bg-gradient-to-br from-amber-400/20 to-yellow-300/10 border-amber-400/50"
-            : "bg-white/10 border-white/20"
+            ? "bg-amber-400/10 border-amber-400/30"
+            : "bg-white/[0.03] border-white/[0.06]"
         }`}
       >
-        <h3 className="text-amber-400 font-semibold text-xs uppercase tracking-widest mb-1">
-          Decoded Gossip
+        <h3 className="text-amber-400/50 font-semibold text-[10px] uppercase tracking-widest mb-1">
+          Dechiffrert sladder
         </h3>
         <Flourish />
         <p
-          className={`text-sm md:text-base leading-relaxed tracking-wide break-words mt-2 ${
-            isCorrect
-              ? "text-amber-200 font-bold"
-              : "text-rose-100/80 italic"
+          className={`text-xs leading-relaxed tracking-wide break-words mt-2 ${
+            isCorrect ? "text-amber-200/80 font-bold" : "text-white/50 italic"
           }`}
           style={{ fontFamily: "'Playfair Display', serif" }}
         >
@@ -173,30 +148,26 @@ export default function BridgertonPuzzle({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="text-amber-400/70 text-xs mt-3 text-center italic"
+            className="text-amber-400/40 text-[10px] mt-3 text-center italic"
           >
-            &mdash; Yours Truly, Lady Whistledown
+            &mdash; Din hengivne, Lady Whistledown
           </motion.p>
         )}
-      </motion.div>
+      </div>
 
-      {/* Submit button */}
       {!isSolved && (
         <motion.button
           onClick={handleSubmit}
           disabled={!isCorrect}
           whileHover={isCorrect ? { scale: 1.05 } : {}}
           whileTap={isCorrect ? { scale: 0.95 } : {}}
-          className={`px-8 py-3 rounded-xl font-bold text-lg transition-all duration-300 ${
+          className={`px-6 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
             isCorrect
-              ? "bg-gradient-to-r from-amber-400 to-yellow-500 text-rose-900 shadow-lg shadow-amber-400/30 cursor-pointer"
-              : "bg-white/10 text-rose-300/50 cursor-not-allowed"
+              ? "bg-amber-400/20 border border-amber-400/30 text-amber-300 hover:bg-amber-400/30"
+              : "bg-white/[0.04] border border-white/[0.06] text-white/25"
           }`}
-          style={
-            isCorrect ? { fontFamily: "'Playfair Display', serif" } : undefined
-          }
         >
-          {submitted ? "Published!" : "Publish the Gossip"}
+          {submitted ? "Publisert!" : "Publiser sladderen"}
         </motion.button>
       )}
     </div>
