@@ -239,7 +239,7 @@ export default function LondonPuzzle({ onSolve, isSolved }: LondonPuzzleProps) {
         {!isSolved && (
           <button
             onClick={handleReset}
-            className="px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-400/30 text-blue-300 text-sm hover:bg-blue-500/30 transition-colors"
+            className="px-6 py-3 rounded-xl bg-[#101828] border-2 border-[#2a4070] text-blue-300 text-sm font-semibold hover:bg-[#152030] hover:border-[#3a5590] transition-all duration-200"
           >
             Tilbakestill
           </button>

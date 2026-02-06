@@ -176,9 +176,9 @@ export default function KpopDemonPuzzle({ onSolve, isSolved }: KpopDemonPuzzlePr
             </p>
             <motion.button
               onClick={startBattle}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="px-6 py-3 bg-purple-500/20 border border-purple-400/30 text-purple-300 font-medium rounded-xl hover:bg-purple-500/30 transition-colors"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              className="px-8 py-3.5 bg-[#1f1530] border-2 border-[#4a3070] text-purple-300 font-semibold rounded-xl hover:bg-[#2a1a40] hover:border-[#6a4090] transition-all duration-200 text-sm"
             >
               Start kampen
             </motion.button>

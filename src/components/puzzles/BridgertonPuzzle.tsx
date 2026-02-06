@@ -159,12 +159,12 @@ export default function BridgertonPuzzle({ onSolve, isSolved }: BridgertonPuzzle
         <motion.button
           onClick={handleSubmit}
           disabled={!isCorrect}
-          whileHover={isCorrect ? { scale: 1.05 } : {}}
-          whileTap={isCorrect ? { scale: 0.95 } : {}}
-          className={`px-6 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
+          whileHover={isCorrect ? { scale: 1.03 } : {}}
+          whileTap={isCorrect ? { scale: 0.97 } : {}}
+          className={`px-8 py-3.5 rounded-xl text-sm font-semibold transition-all duration-300 ${
             isCorrect
-              ? "bg-amber-400/20 border border-amber-400/30 text-amber-300 hover:bg-amber-400/30"
-              : "bg-white/[0.04] border border-white/[0.06] text-white/25"
+              ? "bg-[#2a2010] border-2 border-[#6a5520] text-amber-300 hover:bg-[#352a15] hover:border-[#8a7030]"
+              : "bg-[#111318] border-2 border-[#252830] text-white/20"
           }`}
         >
           {submitted ? "Publisert!" : "Publiser sladderen"}

@@ -139,15 +139,15 @@ export default function GreenDayPuzzle({ onSolve, isSolved }: GreenDayPuzzleProp
 
   const getOptionStyle = (index: number) => {
     if (!revealed) {
-      return 'bg-emerald-500/10 border-emerald-400/20 hover:bg-emerald-500/20 hover:border-emerald-400/40 text-emerald-100';
+      return 'bg-[#0f1f1a] border-2 border-[#1a4a35] hover:bg-[#152e24] hover:border-[#2a6a4a] text-emerald-100';
     }
     if (index === currentQuestion.correctIndex) {
-      return 'bg-green-500/20 border-green-400/40 text-green-300';
+      return 'bg-[#0a2818] border-2 border-emerald-400/70 text-green-300 shadow-[0_0_20px_rgba(52,211,153,0.15)]';
     }
     if (index === selectedOption && index !== currentQuestion.correctIndex) {
-      return 'bg-red-500/20 border-red-400/40 text-red-300';
+      return 'bg-[#280a0a] border-2 border-red-400/60 text-red-300';
     }
-    return 'bg-white/5 border-white/10 text-emerald-200/40';
+    return 'bg-[#111318] border-2 border-[#252830] text-emerald-200/25';
   };
 
   if (showResult || isSolved) {
@@ -202,7 +202,7 @@ export default function GreenDayPuzzle({ onSolve, isSolved }: GreenDayPuzzleProp
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             onClick={handleRetry}
-            className="px-6 py-3 rounded-xl bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 hover:bg-emerald-500/30 transition-colors font-medium"
+            className="px-6 py-3 rounded-xl bg-[#0f2018] border-2 border-[#1a5035] text-emerald-300 hover:bg-[#152a20] hover:border-[#2a6a4a] transition-all duration-200 font-semibold"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -233,19 +233,19 @@ export default function GreenDayPuzzle({ onSolve, isSolved }: GreenDayPuzzleProp
       )}
 
       {/* Progress */}
-      <div className="w-full flex items-center gap-3">
-        <span className="text-sm text-emerald-200/60">
+      <div className="w-full flex items-center gap-3 mb-2">
+        <span className="text-sm text-emerald-200/60 font-medium">
           {currentIndex + 1} / {questions.length}
         </span>
-        <div className="flex-1 h-1.5 bg-white/10 rounded-full overflow-hidden">
+        <div className="flex-1 h-1 bg-white/[0.06] rounded-full overflow-hidden">
           <motion.div
-            className="h-full bg-emerald-400 rounded-full"
+            className="h-full bg-emerald-400/70 rounded-full"
             initial={{ width: 0 }}
             animate={{ width: `${((currentIndex + 1) / questions.length) * 100}%` }}
             transition={{ duration: 0.3, ease: 'easeOut' as const }}
           />
         </div>
-        <span className="text-sm text-emerald-200/60">
+        <span className="text-sm text-emerald-200/60 font-medium">
           Poeng: {score}
         </span>
       </div>
@@ -258,31 +258,23 @@ export default function GreenDayPuzzle({ onSolve, isSolved }: GreenDayPuzzleProp
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -40 }}
           transition={{ duration: 0.3, ease: 'easeInOut' as const }}
-          className="w-full rounded-2xl bg-white/5 backdrop-blur-sm border border-emerald-400/20 p-6"
+          className="w-full rounded-2xl bg-white/[0.03] border-[1.5px] border-emerald-400/15 p-6"
         >
-          <h3 className="text-lg font-semibold text-emerald-100 mb-5">
+          <h3 className="text-base font-semibold text-emerald-100 mb-6 leading-relaxed">
             {currentQuestion.question}
           </h3>
 
-          <div className="space-y-3">
+          <div className="flex flex-col gap-5">
             {currentQuestion.options.map((option, i) => (
               <motion.button
                 key={i}
                 onClick={() => handleSelect(i)}
                 disabled={revealed}
-                className={`w-full text-left px-4 py-3 rounded-xl border transition-all text-sm font-medium ${getOptionStyle(i)}`}
+                className={`w-full text-center py-6 px-6 rounded-2xl transition-all duration-200 text-base font-semibold ${getOptionStyle(i)}`}
                 whileHover={!revealed ? { scale: 1.02 } : {}}
-                whileTap={!revealed ? { scale: 0.98 } : {}}
+                whileTap={!revealed ? { scale: 0.97 } : {}}
               >
-                <span className="mr-3 inline-flex items-center justify-center w-6 h-6 rounded-full border border-current/30 text-xs">
-                  {String.fromCharCode(65 + i)}
-                </span>
                 {option}
-                {revealed && i === currentQuestion.correctIndex && (
-                  <svg className="w-5 h-5 inline ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                  </svg>
-                )}
               </motion.button>
             ))}
           </div>
@@ -294,9 +286,9 @@ export default function GreenDayPuzzle({ onSolve, isSolved }: GreenDayPuzzleProp
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           onClick={handleNext}
-          className="px-6 py-3 rounded-xl bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 hover:bg-emerald-500/30 transition-colors font-medium"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+          className="px-8 py-3.5 rounded-xl bg-[#0f2018] border-2 border-[#1a5035] text-emerald-300 hover:bg-[#152a20] hover:border-[#2a6a4a] transition-all duration-200 font-semibold text-sm"
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.97 }}
         >
           {currentIndex < questions.length - 1 ? 'Neste sp\u00F8rsm\u00E5l' : 'Se resultater'}
         </motion.button>

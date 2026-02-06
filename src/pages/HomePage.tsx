@@ -11,19 +11,19 @@ const containerVariants = {
   hidden: {},
   show: {
     transition: {
-      staggerChildren: 0.06,
-      delayChildren: 0.15,
+      staggerChildren: 0.07,
+      delayChildren: 0.2,
     },
   },
 };
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 16, scale: 0.95 },
+  hidden: { opacity: 0, y: 20, scale: 0.92 },
   show: {
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: { type: 'spring' as const, stiffness: 300, damping: 24 },
+    transition: { type: 'spring' as const, stiffness: 260, damping: 22 },
   },
 };
 
@@ -39,14 +39,14 @@ const HomePage = () => {
   return (
     <PageWrapper>
       {/* Title */}
-      <div className="text-center mb-6">
+      <div className="text-center mb-10">
         <h1
-          className="text-2xl md:text-3xl font-semibold pink-glow animate-glow-pulse mb-2"
+          className="text-3xl md:text-4xl font-bold pink-glow animate-glow-pulse mb-3"
           style={{ fontFamily: "'Playfair Display', serif" }}
         >
           Julies Valentinskalender
         </h1>
-        <p className="text-rose-300/30 text-xs">
+        <p className="text-rose-300/35 text-sm tracking-wide" style={{ fontFamily: "'Lato', sans-serif" }}>
           L&oslash;s alle 7 for &aring; avsl&oslash;re hvor vi skal p&aring; Valentines Day
         </p>
       </div>
@@ -56,7 +56,7 @@ const HomePage = () => {
         variants={containerVariants}
         initial="hidden"
         animate="show"
-        className="grid grid-cols-4 gap-3 mb-8"
+        className="grid grid-cols-4 gap-4 mb-12"
       >
         {puzzles.map((puzzle) => (
           <motion.div key={puzzle.id} variants={cardVariants}>
@@ -71,29 +71,37 @@ const HomePage = () => {
         {/* Valentine's heart in the 8th slot */}
         <motion.div
           variants={cardVariants}
-          className="flex flex-col items-center justify-center rounded-xl border border-rose-500/15 bg-rose-500/[0.04] aspect-square"
-          style={{ boxShadow: '0 0 20px rgba(244,63,94,0.05)' }}
+          className="flex flex-col items-center justify-center rounded-2xl border-[1.5px] border-rose-500/15 bg-rose-500/[0.04] aspect-square"
+          style={{ boxShadow: '0 0 24px rgba(244,63,94,0.06)' }}
         >
-          <span className="text-2xl mb-1">&#10084;&#65039;</span>
-          <span className="text-[9px] text-rose-400/40 font-medium">14. feb</span>
+          <span className="text-3xl mb-1.5">&#10084;&#65039;</span>
+          <span className="text-[10px] text-rose-400/40 font-semibold tracking-wide">14. feb</span>
         </motion.div>
       </motion.div>
 
+      {/* Divider */}
+      <div className="flex items-center gap-4 mb-8">
+        <div className="flex-1 h-px bg-gradient-to-r from-transparent via-rose-400/15 to-transparent" />
+      </div>
+
       {/* Rules */}
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.6 }}
-        className="mb-8 text-center space-y-2"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.6, duration: 0.5 }}
+        className="mb-10 text-center"
       >
-        <h3 className="text-rose-300/40 text-[10px] uppercase tracking-[0.2em] mb-3">
+        <h3
+          className="text-rose-300/50 text-[11px] uppercase tracking-[0.25em] font-semibold mb-5"
+          style={{ fontFamily: "'Lato', sans-serif" }}
+        >
           Slik fungerer det
         </h3>
-        <ul className="space-y-1.5 text-rose-200/25 text-xs leading-relaxed">
-          <li>Oppgave 1 er allerede &aring;pen &mdash; start n&aring;r du vil.</li>
-          <li>N&aring;r du l&oslash;ser en oppgave f&aring;r du et spor, og neste oppgave &aring;pnes etter 24 timer.</li>
-          <li>Samle alle 7 sporene for &aring; avsl&oslash;re hvor vi skal p&aring; Valentines Day.</li>
-        </ul>
+        <div className="space-y-3 text-rose-200/30 text-[13px] leading-relaxed" style={{ fontFamily: "'Lato', sans-serif" }}>
+          <p>Oppgave 1 er allerede &aring;pen &mdash; start n&aring;r du vil.</p>
+          <p>N&aring;r du l&oslash;ser en oppgave f&aring;r du et spor,<br />og neste oppgave &aring;pnes etter 24 timer.</p>
+          <p>Samle alle 7 sporene for &aring; avsl&oslash;re<br />hvor vi skal p&aring; Valentines Day.</p>
+        </div>
       </motion.div>
 
       {/* Final reveal button */}
@@ -106,7 +114,8 @@ const HomePage = () => {
         >
           <Link
             to="/final"
-            className="inline-block px-6 py-3 rounded-xl bg-white/[0.06] border border-white/[0.08] text-white/80 text-sm no-underline hover:bg-white/[0.10] hover:border-white/[0.12] transition-all duration-200"
+            className="inline-block px-8 py-3.5 rounded-2xl bg-rose-500/10 border-[1.5px] border-rose-400/25 text-rose-300 text-sm font-semibold no-underline hover:bg-rose-500/15 hover:border-rose-400/35 transition-all duration-300"
+            style={{ boxShadow: '0 0 30px rgba(244,63,94,0.08)' }}
           >
             Avsl&oslash;r overraskelsen
           </Link>

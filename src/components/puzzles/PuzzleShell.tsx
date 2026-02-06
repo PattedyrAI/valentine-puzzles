@@ -24,28 +24,28 @@ const PuzzleShell = ({
   void _onSolve;
 
   return (
-    <div className="flex-1 flex flex-col items-center px-6 py-8">
-      <div className="w-full max-w-md">
+    <div className="flex-1 flex flex-col items-center px-5 py-8">
+      <div className="w-full max-w-lg">
         {/* Back */}
         <Link
           to="/"
-          className="inline-flex items-center gap-1.5 text-white/30 hover:text-rose-300/60 transition-colors text-xs mb-8 no-underline"
+          className="inline-flex items-center gap-1.5 text-white/30 hover:text-rose-300/60 transition-colors text-sm mb-6 no-underline"
         >
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M15 18l-6-6 6-6" />
           </svg>
           <span>Tilbake</span>
         </Link>
 
         {/* Header */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-10">
           <h1
-            className="text-xl md:text-2xl font-semibold pink-glow mb-2"
+            className="text-2xl md:text-3xl font-bold pink-glow mb-3"
             style={{ fontFamily: "'Playfair Display', serif" }}
           >
             {title}
           </h1>
-          <p className="text-rose-200/30 text-sm leading-relaxed max-w-sm mx-auto">
+          <p className="text-rose-200/30 text-sm leading-relaxed max-w-sm mx-auto" style={{ fontFamily: "'Lato', sans-serif" }}>
             {description}
           </p>
         </div>

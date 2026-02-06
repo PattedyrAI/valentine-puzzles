@@ -143,10 +143,10 @@ export default function WallePuzzle({ onSolve, isSolved }: WallePuzzleProps) {
               transition={{ duration: shakingId === item.id ? 0.4 : 0.25, ease: "easeOut" as const }}
               onClick={() => handleItemClick(item.id)}
               disabled={isSolved}
-              className={`flex flex-col items-center gap-1 p-2.5 rounded-xl bg-white/[0.04] transition-colors duration-150 ${
+              className={`flex flex-col items-center gap-1.5 p-3 rounded-xl transition-all duration-150 ${
                 selectedId === item.id
-                  ? "border-2 border-yellow-400/60 shadow-[0_0_10px_rgba(250,204,21,0.2)]"
-                  : "border border-white/[0.06] hover:border-yellow-400/30"
+                  ? "bg-[#252015] border-2 border-yellow-400/70 shadow-[0_0_16px_rgba(250,204,21,0.2)]"
+                  : "bg-[#161820] border-2 border-[#3a3d50] hover:border-yellow-400/40"
               }`}
             >
               <span className="text-xl">{item.emoji}</span>
@@ -180,8 +180,8 @@ export default function WallePuzzle({ onSolve, isSolved }: WallePuzzleProps) {
             whileTap={selectedId ? { scale: 0.98 } : {}}
             onClick={() => handleBinClick(bin.type)}
             disabled={isSolved || !selectedId}
-            className={`rounded-xl p-3 min-h-[110px] flex flex-col border-2 border-dashed transition-all duration-200 ${bin.borderColor} ${bin.bgColor} ${
-              selectedId && !isSolved ? "hover:shadow-lg" : "opacity-70"
+            className={`rounded-2xl p-4 min-h-[120px] flex flex-col border-2 border-dashed transition-all duration-200 ${bin.borderColor} ${bin.bgColor} ${
+              selectedId && !isSolved ? "hover:shadow-lg hover:border-solid" : "opacity-70"
             }`}
           >
             <span className={`font-medium text-xs mb-2 ${bin.color}`}>{bin.label}</span>

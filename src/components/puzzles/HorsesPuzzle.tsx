@@ -111,16 +111,16 @@ export default function HorsesPuzzle({ onSolve, isSolved }: HorsesPuzzleProps) {
   if (isFinished && score < REQUIRED_CORRECT) {
     return (
       <div className="text-center py-8">
-        <div className="inline-block p-6 rounded-xl bg-white/[0.03] border border-white/[0.06]">
-          <p className="text-white/60 text-sm mb-1">
+        <div className="inline-block p-8 rounded-2xl bg-white/[0.03] border-[1.5px] border-white/[0.08]">
+          <p className="text-white/60 text-base font-medium mb-2">
             {score} av {QUESTIONS.length} riktige
           </p>
-          <p className="text-white/35 text-xs mb-4">
+          <p className="text-white/35 text-sm mb-6">
             Du trenger minst {REQUIRED_CORRECT} for &aring; best&aring;.
           </p>
           <button
             onClick={handleRetry}
-            className="px-4 py-2 rounded-lg bg-white/[0.06] text-white/70 text-sm hover:bg-white/[0.10] transition-colors border border-white/[0.08]"
+            className="px-6 py-3 rounded-xl bg-[#1a1f2e] text-white/80 text-sm font-semibold hover:bg-[#222840] transition-all duration-200 border-2 border-[#3a4260] hover:border-[#5a6490]"
           >
             Pr&oslash;v igjen
           </button>
@@ -132,16 +132,16 @@ export default function HorsesPuzzle({ onSolve, isSolved }: HorsesPuzzleProps) {
   return (
     <div>
       {/* Progress */}
-      <div className="flex items-center justify-between mb-4">
-        <span className="text-white/30 text-xs">
+      <div className="flex items-center justify-between mb-5">
+        <span className="text-white/40 text-sm font-medium">
           Sp&oslash;rsm&aring;l {currentQuestion + 1} av {QUESTIONS.length}
         </span>
-        <span className="text-white/30 text-xs">
+        <span className="text-emerald-400/60 text-sm font-medium">
           {score} riktige
         </span>
       </div>
 
-      <div className="w-full h-0.5 rounded-full bg-white/[0.06] mb-6">
+      <div className="w-full h-1 rounded-full bg-white/[0.06] mb-8">
         <motion.div
           className="h-full rounded-full bg-emerald-500/60"
           animate={{ width: `${((currentQuestion) / QUESTIONS.length) * 100}%` }}
@@ -157,21 +157,21 @@ export default function HorsesPuzzle({ onSolve, isSolved }: HorsesPuzzleProps) {
           exit={{ opacity: 0, x: -20 }}
           transition={{ duration: 0.25 }}
         >
-          <p className="text-white/80 text-sm font-medium leading-relaxed mb-5 text-center">
+          <p className="text-white/80 text-base font-medium leading-relaxed mb-8 text-center">
             {question.question}
           </p>
 
-          <div className="space-y-2">
+          <div className="flex flex-col gap-5">
             {question.options.map((option, i) => {
-              let style = 'bg-white/[0.04] border-white/[0.08] text-white/70 hover:bg-white/[0.08]';
+              let style = 'bg-[#182420] border-2 border-[#2f5840] text-white/90 hover:bg-[#1e3028] hover:border-[#40785a]';
 
               if (showResult) {
                 if (i === question.correct) {
-                  style = 'bg-emerald-500/15 border-emerald-500/30 text-emerald-400';
+                  style = 'bg-[#0e3020] border-2 border-emerald-400 text-emerald-300 shadow-[0_0_20px_rgba(52,211,153,0.2)]';
                 } else if (i === selectedAnswer && !isCorrect) {
-                  style = 'bg-red-500/10 border-red-500/20 text-red-400/80';
+                  style = 'bg-[#2e1010] border-2 border-red-400 text-red-400';
                 } else {
-                  style = 'bg-white/[0.02] border-white/[0.04] text-white/30';
+                  style = 'bg-[#101214] border-2 border-[#1e2228] text-white/25';
                 }
               }
 
@@ -180,7 +180,7 @@ export default function HorsesPuzzle({ onSolve, isSolved }: HorsesPuzzleProps) {
                   key={i}
                   onClick={() => handleSelect(i)}
                   disabled={showResult}
-                  className={`w-full px-4 py-3 rounded-lg text-left text-sm transition-colors duration-150 border ${style}`}
+                  className={`w-full py-6 px-6 rounded-2xl text-center text-lg font-semibold transition-all duration-200 active:scale-[0.97] ${style}`}
                 >
                   {option}
                 </button>

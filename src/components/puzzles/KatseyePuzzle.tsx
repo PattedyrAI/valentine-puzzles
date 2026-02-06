@@ -160,17 +160,17 @@ export default function KatseyePuzzle({ onSolve, isSolved }: KatseyePuzzleProps)
               ))}
             </div>
 
-            <div className="flex justify-center mb-4">
+            <div className="flex justify-center mb-5">
               <button
                 onClick={handleShuffle}
-                className="px-3 py-1.5 rounded-lg bg-white/[0.04] border border-white/[0.08] text-white/50 text-xs hover:bg-white/[0.08] transition-colors"
+                className="px-5 py-2.5 rounded-xl bg-[#181820] border-2 border-[#35354a] text-white/60 text-xs font-semibold hover:bg-[#202030] hover:border-[#4a4a65] transition-all duration-200"
               >
                 Stokk om
               </button>
             </div>
 
             <motion.div
-              className="flex gap-2"
+              className="flex gap-3"
               animate={shaking ? { x: [0, -8, 8, -8, 8, 0] } : {}}
               transition={{ duration: 0.4 }}
             >
@@ -181,13 +181,13 @@ export default function KatseyePuzzle({ onSolve, isSolved }: KatseyePuzzleProps)
                 onKeyDown={handleKeyDown}
                 placeholder="Skriv svaret ditt..."
                 maxLength={currentWord.answer.length + 2}
-                className="flex-1 px-3 py-2 rounded-lg bg-white/[0.03] border border-white/[0.08] text-white/80 placeholder-white/20 outline-none focus:border-pink-400/40 text-sm uppercase tracking-widest"
+                className="flex-1 px-5 py-4 rounded-xl bg-[#1a1520] border-2 border-[#3d2850] text-white/90 placeholder-white/30 outline-none focus:border-pink-400/60 text-sm uppercase tracking-widest"
                 disabled={isSolved}
                 autoFocus
               />
               <button
                 onClick={checkAnswer}
-                className="px-4 py-2 rounded-lg bg-white/[0.06] border border-white/[0.08] text-white/60 text-sm hover:bg-white/[0.10] transition-colors"
+                className="px-6 py-4 rounded-xl bg-[#2a1525] border-2 border-[#6a3055] text-pink-300 text-sm font-bold hover:bg-[#3a1a30] hover:border-[#8a4070] transition-all duration-200"
               >
                 Sjekk
               </button>
