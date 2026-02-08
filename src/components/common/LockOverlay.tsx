@@ -4,9 +4,10 @@ interface LockOverlayProps {
   puzzleTitle: string;
   isPrevSolved: boolean;
   timeRemaining: { days: number; hours: number; minutes: number; seconds: number } | null;
+  unlockDateDisplay?: string | null;
 }
 
-const LockOverlay = ({ puzzleTitle, isPrevSolved, timeRemaining }: LockOverlayProps) => {
+const LockOverlay = ({ puzzleTitle, isPrevSolved, timeRemaining, unlockDateDisplay }: LockOverlayProps) => {
   return (
     <div className="fixed inset-0 z-40 flex items-center justify-center bg-[#0a0a0a]/90 backdrop-blur-sm">
       <div className="max-w-xs w-full mx-6 p-6 text-center rounded-xl border border-white/[0.06] bg-white/[0.02]">
@@ -24,7 +25,7 @@ const LockOverlay = ({ puzzleTitle, isPrevSolved, timeRemaining }: LockOverlayPr
         {isPrevSolved ? (
           <>
             <p className="text-white/20 text-[10px] uppercase tracking-widest mb-3">
-              &Aring;pner om
+              {unlockDateDisplay ? `Åpner ${unlockDateDisplay}` : 'Åpner om'}
             </p>
             <CountdownTimer time={timeRemaining} />
           </>

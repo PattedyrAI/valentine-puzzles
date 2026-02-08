@@ -1,35 +1,48 @@
-import { UNLOCK_DELAY_MS } from '../config/constants';
+import { PUZZLE_UNLOCK_DATES } from '../config/constants';
+
+const MONTH_NAMES_NO = [
+  'januar', 'februar', 'mars', 'april', 'mai', 'juni',
+  'juli', 'august', 'september', 'oktober', 'november', 'desember',
+];
+
+/** Parse "YYYY-MM-DD" to local midnight Date */
+function parseUnlockDate(dateStr: string): Date {
+  const [y, m, d] = dateStr.split('-').map(Number);
+  return new Date(y, m - 1, d);
+}
 
 /**
- * Check if a puzzle is unlocked in the sequential system.
- * Puzzle 1 is always unlocked. Others require the previous puzzle
- * to have been solved at least 24 hours ago.
+ * Check if a puzzle is unlocked based on calendar date.
+ * Puzzle 1 is always unlocked.
+ * Others require: the date has arrived AND the previous puzzle is solved.
  */
-export function isPuzzleUnlockedSequential(
+export function isPuzzleUnlocked(
   puzzleId: number,
   solvedAt: Record<number, number>
 ): boolean {
   if (puzzleId === 1) return true;
-  const prevSolvedTime = solvedAt[puzzleId - 1];
-  if (!prevSolvedTime) return false;
-  return Date.now() >= prevSolvedTime + UNLOCK_DELAY_MS;
+  const dateStr = PUZZLE_UNLOCK_DATES[puzzleId];
+  if (!dateStr) return false;
+  const prevSolved = (puzzleId - 1) in solvedAt;
+  if (!prevSolved) return false;
+  return Date.now() >= parseUnlockDate(dateStr).getTime();
 }
 
 /**
- * Get the time remaining until a puzzle unlocks sequentially.
+ * Get time remaining until a puzzle's unlock date.
  * Returns null if already unlocked or if previous puzzle isn't solved yet.
  */
-export function getTimeUntilUnlockSequential(
+export function getTimeUntilUnlock(
   puzzleId: number,
   solvedAt: Record<number, number>
 ): { days: number; hours: number; minutes: number; seconds: number } | null {
   if (puzzleId === 1) return null;
-  const prevSolvedTime = solvedAt[puzzleId - 1];
-  if (!prevSolvedTime) return null;
+  const dateStr = PUZZLE_UNLOCK_DATES[puzzleId];
+  if (!dateStr) return null;
+  const prevSolved = (puzzleId - 1) in solvedAt;
+  if (!prevSolved) return null;
 
-  const unlockTime = prevSolvedTime + UNLOCK_DELAY_MS;
-  const diff = unlockTime - Date.now();
-
+  const diff = parseUnlockDate(dateStr).getTime() - Date.now();
   if (diff <= 0) return null;
 
   const days = Math.floor(diff / (1000 * 60 * 60 * 24));
@@ -38,4 +51,12 @@ export function getTimeUntilUnlockSequential(
   const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
   return { days, hours, minutes, seconds };
+}
+
+/** Returns Norwegian date display like "8. februar" for a puzzle's unlock date. */
+export function getUnlockDateDisplay(puzzleId: number): string | null {
+  const dateStr = PUZZLE_UNLOCK_DATES[puzzleId];
+  if (!dateStr) return null;
+  const date = parseUnlockDate(dateStr);
+  return `${date.getDate()}. ${MONTH_NAMES_NO[date.getMonth()]}`;
 }

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { DEV_MODE } from '../config/constants';
-import { isPuzzleUnlockedSequential, getTimeUntilUnlockSequential } from '../utils/dateUtils';
+import { isPuzzleUnlocked, getTimeUntilUnlock } from '../utils/dateUtils';
 
 interface PuzzleUnlockState {
   isUnlocked: boolean;
@@ -20,8 +20,8 @@ export function usePuzzleUnlock(
     }
     const prevSolved = puzzleId === 1 || (puzzleId - 1) in solvedAt;
     return {
-      isUnlocked: isPuzzleUnlockedSequential(puzzleId, solvedAt),
-      timeRemaining: getTimeUntilUnlockSequential(puzzleId, solvedAt),
+      isUnlocked: isPuzzleUnlocked(puzzleId, solvedAt),
+      timeRemaining: getTimeUntilUnlock(puzzleId, solvedAt),
       isPrevSolved: prevSolved,
     };
   });
@@ -34,8 +34,8 @@ export function usePuzzleUnlock(
 
     const tick = () => {
       const prevSolved = puzzleId === 1 || (puzzleId - 1) in solvedAt;
-      const unlocked = isPuzzleUnlockedSequential(puzzleId, solvedAt);
-      const remaining = getTimeUntilUnlockSequential(puzzleId, solvedAt);
+      const unlocked = isPuzzleUnlocked(puzzleId, solvedAt);
+      const remaining = getTimeUntilUnlock(puzzleId, solvedAt);
 
       setState({ isUnlocked: unlocked, timeRemaining: remaining, isPrevSolved: prevSolved });
 

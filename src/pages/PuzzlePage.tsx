@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react';
 import { puzzles } from '../config/puzzles';
 import { useProgress } from '../hooks/useProgress';
 import { usePuzzleUnlock } from '../hooks/usePuzzleUnlock';
+import { getUnlockDateDisplay } from '../utils/dateUtils';
 import { useConfetti } from '../hooks/useConfetti';
 import PuzzleShell from '../components/puzzles/PuzzleShell';
 import LockOverlay from '../components/common/LockOverlay';
@@ -76,6 +77,7 @@ const PuzzlePage = () => {
           puzzleTitle={puzzle.title}
           isPrevSolved={isPrevSolved}
           timeRemaining={timeRemaining}
+          unlockDateDisplay={getUnlockDateDisplay(puzzle.id)}
         />
       )}
       <PuzzleShell

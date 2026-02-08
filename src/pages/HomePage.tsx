@@ -5,7 +5,7 @@ import PuzzleCard from '../components/common/PuzzleCard';
 import { puzzles } from '../config/puzzles';
 import { useProgress } from '../hooks/useProgress';
 import { DEV_MODE, TOTAL_PUZZLES } from '../config/constants';
-import { isPuzzleUnlockedSequential } from '../utils/dateUtils';
+import { isPuzzleUnlocked } from '../utils/dateUtils';
 
 const containerVariants = {
   hidden: {},
@@ -33,7 +33,7 @@ const HomePage = () => {
 
   const checkUnlocked = (puzzleId: number): boolean => {
     if (DEV_MODE) return true;
-    return isPuzzleUnlockedSequential(puzzleId, progress.solvedAt);
+    return isPuzzleUnlocked(puzzleId, progress.solvedAt);
   };
 
   return (
@@ -99,7 +99,7 @@ const HomePage = () => {
         </h3>
         <div className="space-y-3 text-rose-200/30 text-[13px] leading-relaxed" style={{ fontFamily: "'Lato', sans-serif" }}>
           <p>Oppgave 1 er allerede &aring;pen &mdash; start n&aring;r du vil.</p>
-          <p>N&aring;r du l&oslash;ser en oppgave f&aring;r du et spor,<br />og neste oppgave &aring;pnes etter 24 timer.</p>
+          <p>N&aring;r du l&oslash;ser en oppgave f&aring;r du et spor,<br />og en ny oppgave &aring;pnes hver dag.</p>
           <p>Samle alle 7 sporene for &aring; avsl&oslash;re<br />hvor vi skal p&aring; Valentines Day.</p>
         </div>
       </motion.div>
