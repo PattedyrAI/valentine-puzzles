@@ -1,5 +1,5 @@
 export const HER_NAME = 'Julie';
-export const LOCATION = 'Dronningens gate 25';
+export const LOCATION = 'Kreatur, Dronningens gate 25';
 export const DEV_MODE = false; // Set to true to bypass date locks during development
 export const VALENTINES_DAY = '2026-02-14';
 export const PUZZLE_UNLOCK_DATES: Record<number, string> = {

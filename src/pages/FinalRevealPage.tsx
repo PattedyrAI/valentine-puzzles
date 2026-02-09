@@ -92,7 +92,7 @@ const FinalRevealPage = () => {
             className="text-xl md:text-3xl font-semibold pink-glow-strong mb-4"
             style={{ fontFamily: "'Playfair Display', serif" }}
           >
-            Dronningens gate 25, Oslo
+            Kreatur, Dronningens gate 25, Oslo
           </motion.h2>
           <motion.div
             initial={{ scaleX: 0 }}
@@ -106,7 +106,7 @@ const FinalRevealPage = () => {
             transition={{ delay: 2.2, duration: 0.6 }}
             className="font-accent text-lg pink-glow"
           >
-            Vi sees kl. 18:00 den 14. februar, Julie!
+            Conspiracy Cooking &mdash; vi sees kl. 18:00 den 14. februar, Julie!
           </motion.p>
         </motion.div>
 
