@@ -80,11 +80,12 @@ export function migrateProgress(): void {
 
 /**
  * Pre-seed puzzles 1-3 as solved so puzzle 4 is immediately accessible.
- * Only runs once — skips if any of these puzzles are already solved.
+ * Skips if all three are already solved. Fills in any missing ones.
  */
 export function preseedProgress(): void {
   const progress = getProgress();
-  if (progress.solved.includes(1)) return; // Already seeded or played
+  const allSeeded = [1, 2, 3].every(id => progress.solved.includes(id) && progress.solvedAt[id]);
+  if (allSeeded) return;
 
   const preseeded: [number, string][] = [
     [1, 'Byen er Oslo \u2014 eventyret ditt begynner i Norges hovedstad!'],
@@ -96,7 +97,11 @@ export function preseedProgress(): void {
   for (const [id, clue] of preseeded) {
     if (!progress.solved.includes(id)) {
       progress.solved.push(id);
+    }
+    if (!progress.clues[id]) {
       progress.clues[id] = clue;
+    }
+    if (!progress.solvedAt[id]) {
       // Stagger timestamps in the past so sequential unlock logic is satisfied
       progress.solvedAt[id] = now - (4 - id) * 25 * 60 * 60 * 1000;
     }
