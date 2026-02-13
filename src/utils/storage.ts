@@ -79,6 +79,34 @@ export function migrateProgress(): void {
 }
 
 /**
+ * Pre-seed puzzles 1-3 as solved so puzzle 4 is immediately accessible.
+ * Only runs once — skips if any of these puzzles are already solved.
+ */
+export function preseedProgress(): void {
+  const progress = getProgress();
+  if (progress.solved.includes(1)) return; // Already seeded or played
+
+  const preseeded: [number, string][] = [
+    [1, 'Byen er Oslo \u2014 eventyret ditt begynner i Norges hovedstad!'],
+    [2, 'Se etter Dronningens... (Dronningens p\u00e5 norsk)'],
+    [3, '...gate (som betyr \u00abstreet\u00bb p\u00e5 norsk)'],
+  ];
+
+  const now = Date.now();
+  for (const [id, clue] of preseeded) {
+    if (!progress.solved.includes(id)) {
+      progress.solved.push(id);
+      progress.clues[id] = clue;
+      // Stagger timestamps in the past so sequential unlock logic is satisfied
+      progress.solvedAt[id] = now - (4 - id) * 25 * 60 * 60 * 1000;
+    }
+  }
+
+  progress.solved.sort((a, b) => a - b);
+  saveProgress(progress);
+}
+
+/**
  * Reset all progress, clearing localStorage.
  */
 export function resetProgress(): void {
